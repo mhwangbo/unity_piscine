@@ -55,6 +55,8 @@
   <ItemGroup>
      <Compile Include="Assets\Script\playerScript_ex00.cs" />
      <Compile Include="Assets\Script\playerScript_ex01.cs" />
+     <Compile Include="Assets\Script\playerScript_ex02.cs" />
+     <Compile Include="Assets\Script\playerScript_ex03.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/Hwangbo/Desktop/unityPiscine/d01/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
