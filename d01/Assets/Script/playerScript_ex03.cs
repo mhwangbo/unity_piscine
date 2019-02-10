@@ -25,6 +25,9 @@ public class playerScript_ex03 : MonoBehaviour
     static bool firstStage = false;
     static bool secondStage = false;
     static bool thirdStage = false;
+
+    public GameObject movingPlatform;
+    public GameObject teleporter;
  
     Camera mainCamera;
 
@@ -53,6 +56,7 @@ public class playerScript_ex03 : MonoBehaviour
             j_exit = true;
         if (t_exit && c_exit && j_exit)
             Win();
+        ChangeMovingPlatformColor();
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -98,6 +102,12 @@ public class playerScript_ex03 : MonoBehaviour
             Destroy(GameObject.Find("DestroyPlatform1st"));
             Destroy(GameObject.Find("DestroyPlatform2nd"));
         }
+        else if (!thirdStage)
+        {
+            Debug.Log("Third stage - COMPLETED");
+            thirdStage = true;
+
+        }
     }
 
     void Reset()
@@ -106,6 +116,16 @@ public class playerScript_ex03 : MonoBehaviour
         t_exit = false;
         c_exit = false;
         j_exit = false;
+    }
+
+    void ChangeMovingPlatformColor()
+    {
+        if (c_exit)
+            movingPlatform.layer = 12;
+        if (t_exit)
+            movingPlatform.layer = 13;
+        if (!c_exit)
+            movingPlatform.layer = 11;
     }
 
     void Update()
