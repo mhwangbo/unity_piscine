@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerScript_ex03 : MonoBehaviour
 {
@@ -27,7 +28,6 @@ public class playerScript_ex03 : MonoBehaviour
     static bool thirdStage = false;
 
     public GameObject movingPlatform;
-    public GameObject teleporter;
  
     Camera mainCamera;
 
@@ -106,16 +106,16 @@ public class playerScript_ex03 : MonoBehaviour
         {
             Debug.Log("Third stage - COMPLETED");
             thirdStage = true;
-
+            SceneManager.LoadScene("ex04");
         }
     }
 
     void Reset()
     {
-        Application.LoadLevel(0);
         t_exit = false;
         c_exit = false;
         j_exit = false;
+        SceneManager.LoadScene("ex03");
     }
 
     void ChangeMovingPlatformColor()

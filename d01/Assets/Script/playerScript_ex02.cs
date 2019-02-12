@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerScript_ex02 : MonoBehaviour
 {
@@ -16,11 +17,6 @@ public class playerScript_ex02 : MonoBehaviour
     static bool t_exit = false;
     static bool c_exit = false;
     static bool j_exit = false;
-
-    public GameObject door;
-    static bool t_door = false;
-    static bool c_door = false;
-    static bool j_door = false;
 
     static bool firstStage = false;
  
@@ -61,20 +57,6 @@ public class playerScript_ex02 : MonoBehaviour
             c_exit = false;
         if (other.transform.name == "yellow_exit" && transform.name == "john")
             j_exit = false;
-
-        if (other.transform.name == "DoorCollider" && transform.name == "thomas")
-            t_door = true;
-        if (other.transform.name == "DoorCollider" && transform.name == "claire")
-            c_door = true;
-        if (other.transform.name == "DoorCollider" && transform.name == "john")
-            j_door = true;
-        if (t_door && c_door && j_door)
-            DoorClose();
-    }
-
-    void DoorClose()
-    {
-        door.transform.Translate(Vector3.up * -2);
     }
 
     void Win()
@@ -83,17 +65,14 @@ public class playerScript_ex02 : MonoBehaviour
         if (!firstStage)
         {
             firstStage = true;
-            t_exit = false;
-            c_exit = false;
-            j_exit = false;
+            SceneManager.LoadScene("ex03");
 
-            door.transform.Translate(Vector3.up * 2);
         }
     }
 
     void Reset()
     {
-        Application.LoadLevel(0);
+        SceneManager.LoadScene("ex02");
         t_exit = false;
         c_exit = false;
         j_exit = false;

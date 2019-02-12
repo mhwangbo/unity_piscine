@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerScript_ex01 : MonoBehaviour
 {
@@ -48,7 +49,7 @@ public class playerScript_ex01 : MonoBehaviour
         if (t_exit && c_exit && j_exit)
         {
             Debug.Log("You solved it!");
-            Application.LoadLevel(0);
+            SceneManager.LoadScene("ex02");
         }
     }
 
@@ -83,7 +84,7 @@ public class playerScript_ex01 : MonoBehaviour
             localHeight = height * 2;
         }
         if (Input.GetKey("r"))
-            Application.LoadLevel(0);
+            SceneManager.LoadScene("ex01");
         if (Input.GetKey("right"))
             characters[characterChoice].transform.Translate(Vector3.right * localSpeed * Time.deltaTime);
         if (Input.GetKey("left"))

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerScript_ex00 : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class playerScript_ex00 : MonoBehaviour
         if (Input.GetKey("3"))
           characterChoice = 2;
         if (Input.GetKey("r"))
-          Application.LoadLevel(0);
+            SceneManager.LoadScene("ex00");
         if (Input.GetKey("right"))
           characters[characterChoice].transform.Translate(Vector3.right * speed * Time.deltaTime);
         if (Input.GetKey("left"))

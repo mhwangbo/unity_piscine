@@ -53,11 +53,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\bullet.cs" />
+     <Compile Include="Assets\Script\button.cs" />
      <Compile Include="Assets\Script\movingPlatform.cs" />
      <Compile Include="Assets\Script\playerScript_ex00.cs" />
      <Compile Include="Assets\Script\playerScript_ex01.cs" />
      <Compile Include="Assets\Script\playerScript_ex02.cs" />
      <Compile Include="Assets\Script\playerScript_ex03.cs" />
+     <Compile Include="Assets\Script\playerScript_ex04.cs" />
+     <Compile Include="Assets\Script\playerScript_ex05.cs" />
+     <Compile Include="Assets\Script\teleporter.cs" />
+     <Compile Include="Assets\Script\turret.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/Hwangbo/Desktop/unityPiscine/d01/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>

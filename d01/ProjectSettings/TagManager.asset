@@ -8,6 +8,11 @@ TagManager:
   - character
   - exit
   - DestroyPlatform
+  - button
+  - trap
+  - hole
+  - turret
+  - bullet
   layers:
   - Default
   - TransparentFX
