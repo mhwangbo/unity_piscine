@@ -5,46 +5,74 @@ using UnityEngine;
 public class footman : MonoBehaviour
 {
     public float speed = 1.5f;
-    private Vector3 target;
+    public Vector3 target;
 
     public Animator anim;
-    public bool selected = false;
+    public bool isSelected = false;
     private bool isRight = true;
     private float dirX;
     private float dirY;
+
+    public footmanController fmController;
+    private AudioSource walkingSound;
 
     void Start()
     {
         target = transform.position;
         anim = GetComponent<Animator>();
+        walkingSound = GetComponent<AudioSource>();
     }
 
-    public void WhenSelected()
+    public void OnMouseDown()
     {
-        if (selected)
-            InvokeRepeating("Move", 0, 0.1f);
-        else if (!selected)
-            CancelInvoke();
+        if (!isSelected)
+        {
+            enabled = true;
+            isSelected = true;
+            if (Input.GetKey(KeyCode.LeftControl))
+                fmController.footmanList.Add(this);
+            else
+            {
+                foreach (footman fm in fmController.footmanList)
+                {
+                    if (fm.isSelected)
+                    {
+                        fm.isSelected = false;
+                    }
+                }
+                fmController.footmanList.Clear();
+                fmController.footmanList.Add(this);
+            }
+
+        }
     }
 
-    void Move()
+    void Update()
     {
-           if (Input.GetMouseButtonDown(0))
+        if (isSelected)
+        {
+            if (Input.GetMouseButtonDown(0))
             {
-                target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                target.z = transform.position.z;
-                dirX = target.x - transform.position.x;
-                dirY = target.y - transform.position.y;
-                anim.SetBool("walk", true);
-                anim.SetFloat("x", target.x - transform.position.x);
-                anim.SetFloat("y", target.y - transform.position.y);
-                flip();
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+                if (!hit || (hit.collider.gameObject.transform.tag != "footman"))
+                {
+                    walkingSound.Play();
+                    target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    target.z = transform.position.z;
+                    dirX = target.x - transform.position.x;
+                    dirY = target.y - transform.position.y;
+                    anim.SetBool("walk", true);
+                    anim.SetFloat("x", dirX);
+                    anim.SetFloat("y", dirY);
+                    flip();
+                }
             }
-            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-            if (transform.position == target)
-            {
-                anim.SetBool("walk", false);
-            }
+        }
+        transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+        if (transform.position == target)
+        {
+            anim.SetBool("walk", false);
+        }
     }
 
     void flip()

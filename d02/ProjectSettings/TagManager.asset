@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Tile
   - footman
+  - humanBuilding
+  - orcBuilding
+  - orc
   layers:
   - Default
   - TransparentFX

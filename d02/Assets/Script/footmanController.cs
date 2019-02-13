@@ -4,19 +4,30 @@ using UnityEngine;
 
 public class footmanController : MonoBehaviour
 {
+    public List<footman> footmanList = new List<footman>();
+
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
-
-            if (hit.collider.tag == "footman")
+            if (Input.GetKey(KeyCode.LeftControl))
+                return;
+            foreach (footman fm in footmanList)
             {
-                footman fm = hit.collider.gameObject.GetComponent<footman>();
-                fm.selected = true;
-                fm.WhenSelected();
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
             }
+        } else if (Input.GetMouseButtonDown(1))
+        {
+            foreach (footman fm in footmanList)
+            {
+                if (fm.isSelected)
+                {
+                    fm.isSelected = false;
+                }
+            }
+            footmanList.Clear();
         }
     }
 }
