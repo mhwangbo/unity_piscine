@@ -10,17 +10,37 @@ public class footman : MonoBehaviour
     public Animator anim;
     public bool isSelected = false;
     private bool isRight = true;
+    private bool attack = false;
     private float dirX;
     private float dirY;
 
     public footmanController fmController;
-    private AudioSource walkingSound;
+    public AudioSource walkingSound;
+    public AudioSource attackSound;
+
+    private GameObject follow;
+    private bool isFollow = false;
 
     void Start()
     {
         target = transform.position;
         anim = GetComponent<Animator>();
-        walkingSound = GetComponent<AudioSource>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (attack && collision.gameObject.name == follow.name)
+        {
+            target = transform.position;
+            anim.SetBool("attack", true);
+            attackSound.Play();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "orc")
+            anim.SetBool("attack", false);
     }
 
     public void OnMouseDown()
@@ -56,6 +76,14 @@ public class footman : MonoBehaviour
                 RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
                 if (!hit || (hit.collider.gameObject.transform.tag != "footman"))
                 {
+                    if (hit)
+                    {
+                        attack = true;
+                        follow = hit.collider.gameObject;
+                        isFollow = true;
+                    }
+                    else
+                        isFollow = false;
                     walkingSound.Play();
                     target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     target.z = transform.position.z;
@@ -67,6 +95,21 @@ public class footman : MonoBehaviour
                     flip();
                 }
             }
+        }
+        if (isFollow && !follow)
+        {
+            isFollow = false;
+            anim.SetBool("attack", false);
+        }
+        if (isFollow)
+        {
+            target = follow.transform.position;
+            dirX = target.x - transform.position.x;
+            dirY = target.y - transform.position.y;
+            anim.SetFloat("x", dirX);
+            anim.SetFloat("y", dirY);
+            flip();
+            anim.SetBool("walk", true);
         }
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
         if (transform.position == target)
