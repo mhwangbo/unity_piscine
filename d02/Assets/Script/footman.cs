@@ -99,6 +99,7 @@ public class footman : MonoBehaviour
         if (isFollow && !follow)
         {
             isFollow = false;
+            follow = null;
             anim.SetBool("attack", false);
         }
         if (isFollow)

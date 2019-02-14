@@ -123,6 +123,7 @@ MonoBehaviour:
   fmController: {fileID: 0}
   walkingSound: {fileID: 864517737}
   attackSound: {fileID: 718718102385426457}
+  follow: {fileID: 0}
 --- !u!50 &2382954259021878762
 Rigidbody2D:
   serializedVersion: 4

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class building : MonoBehaviour
 {
+    public townHall th;
     public float maxHP;
     public float curHP;
 
@@ -31,13 +32,17 @@ public class building : MonoBehaviour
         curHP = maxHP;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private IEnumerator OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != transform.gameObject.tag)
+        yield return new WaitForSeconds(2);
+        if (collision.IsTouching(gameObject.GetComponent<Collider2D>()))
         {
-            coroutine = Damage();
-            StartCoroutine(coroutine);
-            coroutineStarted = true;
+            if (collision.gameObject.tag != transform.gameObject.tag)
+            {
+                coroutine = Damage();
+                StartCoroutine(coroutine);
+                coroutineStarted = true;
+            }
         }
     }
 
@@ -70,6 +75,7 @@ public class building : MonoBehaviour
         {
             isDead = true;
             deadSound.Play();
+            th.IncreaseWaitTime();
             Destroy(gameObject);
         }
         if (timer > waitTime && transform.name == "TownHall")
