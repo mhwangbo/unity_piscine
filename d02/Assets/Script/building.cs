@@ -21,6 +21,11 @@ public class building : MonoBehaviour
     private float timer = 0.0f;
     private float waitTime = 10.0f;
 
+    private void OnMouseDown()
+    {
+        enabled = true;
+    }
+
     void Start()
     {
         curHP = maxHP;
@@ -30,7 +35,7 @@ public class building : MonoBehaviour
     {
         if (collision.gameObject.tag != transform.gameObject.tag)
         {
-            coroutine = DamageBuilding();
+            coroutine = Damage();
             StartCoroutine(coroutine);
             coroutineStarted = true;
         }
@@ -42,15 +47,19 @@ public class building : MonoBehaviour
         {
             StopCoroutine(coroutine);
             coroutineStarted = false;
+            if (transform.gameObject.tag == "orc")
+                print("Orc Unit [" + curHP + "/" + maxHP + "]HP has been attacked");
+            else
+                print("Human Unit [" + curHP + "/" + maxHP + "]HP has been attacked");
         }
     }
 
-    IEnumerator DamageBuilding()
+    IEnumerator Damage()
     {
         while (true)
         {
+            yield return new WaitForSeconds(1.0f);
             curHP--;
-            yield return new WaitForSeconds(0.5f);
         }
     }
 

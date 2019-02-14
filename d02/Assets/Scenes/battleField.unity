@@ -551,6 +551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
+  curHP: 0
   isDead: 0
   coroutineStarted: 0
   orcPrefab: {fileID: 8806858396551950283, guid: aafd0522f52fe3846ba4acbe35284b85,
@@ -777,6 +778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
+  curHP: 0
   isDead: 0
   coroutineStarted: 0
   orcPrefab: {fileID: 8806858396551950283, guid: aafd0522f52fe3846ba4acbe35284b85,
@@ -1037,7 +1039,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e2bc484dab7edf4eba5b7121160bc63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 40
+  maxHP: 100
+  curHP: 0
   isDead: 0
   coroutineStarted: 0
   orcPrefab: {fileID: 8806858396551950283, guid: aafd0522f52fe3846ba4acbe35284b85,
@@ -1263,7 +1266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e2bc484dab7edf4eba5b7121160bc63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 40
+  maxHP: 100
+  curHP: 0
   isDead: 0
   coroutineStarted: 0
   orcPrefab: {fileID: 8806858396551950283, guid: aafd0522f52fe3846ba4acbe35284b85,
@@ -1490,6 +1494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
+  curHP: 0
   isDead: 0
   coroutineStarted: 0
   orcPrefab: {fileID: 8806858396551950283, guid: aafd0522f52fe3846ba4acbe35284b85,
@@ -1716,6 +1721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
+  curHP: 0
   isDead: 0
   coroutineStarted: 0
   orcPrefab: {fileID: 8806858396551950283, guid: aafd0522f52fe3846ba4acbe35284b85,
@@ -2050,6 +2056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
+  curHP: 0
   isDead: 0
   coroutineStarted: 0
   orcPrefab: {fileID: 8806858396551950283, guid: aafd0522f52fe3846ba4acbe35284b85,
@@ -2276,6 +2283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
+  curHP: 0
   isDead: 0
   coroutineStarted: 0
   orcPrefab: {fileID: 8806858396551950283, guid: aafd0522f52fe3846ba4acbe35284b85,
@@ -2502,6 +2510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
+  curHP: 0
   isDead: 0
   coroutineStarted: 0
   orcPrefab: {fileID: 8806858396551950283, guid: aafd0522f52fe3846ba4acbe35284b85,
@@ -2728,6 +2737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
+  curHP: 0
   isDead: 0
   coroutineStarted: 0
   orcPrefab: {fileID: 8806858396551950283, guid: aafd0522f52fe3846ba4acbe35284b85,

@@ -18,7 +18,7 @@ public class footman : MonoBehaviour
     public AudioSource walkingSound;
     public AudioSource attackSound;
 
-    private GameObject follow;
+    public GameObject follow;
     private bool isFollow = false;
 
     void Start()
