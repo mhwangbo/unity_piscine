@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class footman : MonoBehaviour
 {
+    public float maxHP;
+    public float curHP;
+
     public float speed = 1.5f;
     public Vector3 target;
 
@@ -17,30 +20,65 @@ public class footman : MonoBehaviour
     public footmanController fmController;
     public AudioSource walkingSound;
     public AudioSource attackSound;
+    public AudioSource deadSound;
 
     public GameObject follow;
     private bool isFollow = false;
+
+    private bool coroutineStarted = false;
+    private IEnumerator coroutine;
 
     void Start()
     {
         target = transform.position;
         anim = GetComponent<Animator>();
+        curHP = maxHP;
+    }
+
+    public GameObject AttackTarget()
+    {
+        return (follow);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (attack && collision.gameObject.name == follow.name)
         {
+            if (collision.gameObject.name == "Orc")
+                collision.gameObject.SendMessage("Attacked");
             target = transform.position;
             anim.SetBool("attack", true);
             attackSound.Play();
+        }
+        if (collision.gameObject.name == "Orc")
+        {
+            coroutine = Damage();
+            StartCoroutine(coroutine);
+            coroutineStarted = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "orc")
+        if (collision.gameObject.tag == "orc" || collision.gameObject.tag == "orcTown")
+        {
+            if (coroutineStarted && collision.gameObject.tag == "orc")
+            {
+                StopCoroutine(coroutine);
+                coroutineStarted = false;
+                print("Human Unit [" + curHP + "/" + maxHP + "]HP has been attacked");
+            }
             anim.SetBool("attack", false);
+        }
+    }
+
+    IEnumerator Damage()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1.0f);
+            curHP--;
+        }
     }
 
     public void OnMouseDown()
@@ -69,6 +107,11 @@ public class footman : MonoBehaviour
 
     void Update()
     {
+        if (curHP <= 0)
+        {
+            deadSound.Play();
+            Destroy(gameObject);
+        }
         if (isSelected)
         {
             if (Input.GetMouseButtonDown(0))
@@ -83,7 +126,13 @@ public class footman : MonoBehaviour
                         isFollow = true;
                     }
                     else
+                    {
+                        if (isFollow && follow.gameObject.tag == "orc")
+                        {
+                            follow.gameObject.SendMessage("Attacked");
+                        }
                         isFollow = false;
+                    }
                     walkingSound.Play();
                     target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     target.z = transform.position.z;
@@ -100,6 +149,7 @@ public class footman : MonoBehaviour
         {
             isFollow = false;
             follow = null;
+            attack = false;
             anim.SetBool("attack", false);
         }
         if (isFollow)

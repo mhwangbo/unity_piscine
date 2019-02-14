@@ -33,16 +33,30 @@ public class townHall : MonoBehaviour
         curHP = maxHP;
     }
 
+    private void SearchOrc(bool trueOrFalse)
+    {
+        GameObject[] findOrc = GameObject.FindGameObjectsWithTag("orc");
+        for (int i = 0; i < findOrc.Length; i++)
+        {
+            findOrc[i].SendMessage("Protect", trueOrFalse);
+        }
+    }
+
     private IEnumerator OnTriggerEnter2D(Collider2D collision)
     {
         yield return new WaitForSeconds(2);
         if (collision.IsTouching(gameObject.GetComponent<Collider2D>()))
         {
-            if (collision.gameObject.tag != transform.gameObject.tag)
+            if ((collision.gameObject.tag == "footman" && transform.gameObject.tag == "orcTown")
+                || (collision.gameObject.tag == "orc" && transform.gameObject.tag == "humanTown"))
             {
                 coroutine = Damage();
                 StartCoroutine(coroutine);
                 coroutineStarted = true;
+                if (transform.gameObject.tag == "orcTown")
+                {
+                    SearchOrc(true);
+                }
             }
         }
     }
@@ -51,21 +65,25 @@ public class townHall : MonoBehaviour
     {
         if (coroutineStarted)
         {
-            StopCoroutine(coroutine);
-            coroutineStarted = false;
             if (!isDead)
             {
-                if (transform.gameObject.tag == "orc")
+                if (transform.gameObject.tag == "orcTown")
                     print("Orc Unit [" + curHP + "/" + maxHP + "]HP has been attacked");
                 else
                     print("Human Unit [" + curHP + "/" + maxHP + "]HP has been attacked");
             }
             else
             {
-                if (transform.gameObject.tag == "orc")
+                if (transform.gameObject.tag == "orcTown")
                     print("The Human Team wins.");
                 else
                     print("The Orc Team wins.");
+            }
+            StopCoroutine(coroutine);
+            coroutineStarted = false;
+            if (transform.gameObject.tag == "orcTown")
+            {
+                SearchOrc(false);
             }
         }
     }
@@ -75,7 +93,7 @@ public class townHall : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1.0f);
-            curHP--;
+            curHP --;
         }
     }
 
@@ -97,19 +115,31 @@ public class townHall : MonoBehaviour
         if (timer > waitTime)
         {
             timer -= waitTime;
-            if (transform.tag == "orc")
+            Transform targetTransform;
+            GameObject targetPrefab;
+            float targetPosition = 0.0f;
+
+            if (transform.tag == "orcTown")
             {
-                GameObject summon = (GameObject)Instantiate(orcPrefab, oController.transform.position, oController.transform.rotation);
-                summon.transform.parent = oController.transform;
-                summon.name = orcPrefab.name;
+                targetTransform = oController.transform;
+                targetPrefab = orcPrefab;
             }
             else
             {
-                GameObject summon = (GameObject)Instantiate(footmanPrefab, fmController.transform.position, transform.rotation);
-                summon.GetComponent<footman>().fmController = fmController;
-                summon.transform.parent = fmController.transform;
-                summon.name = footmanPrefab.name;
+                targetTransform = fmController.transform;
+                targetPrefab = footmanPrefab;
             }
+            RaycastHit2D hit = Physics2D.Raycast(targetTransform.position, -Vector2.up);
+            if (hit.collider != null)
+            {
+                targetPosition += Random.Range(0.2f, 1.0f);
+            }
+            GameObject summon = (GameObject)Instantiate(targetPrefab, targetTransform.position, targetTransform.rotation);
+            summon.transform.parent = targetTransform;
+            summon.transform.position = new Vector3(summon.transform.position.x + targetPosition, summon.transform.position.y);
+            summon.name = targetPrefab.name;
+            if (transform.tag == "humanTown")
+                summon.GetComponent<footman>().fmController = fmController;
         }
     }
 }

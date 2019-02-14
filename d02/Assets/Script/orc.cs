@@ -4,22 +4,34 @@ using UnityEngine;
 
 public class orc : MonoBehaviour
 {
-    public float speed = 1.5f;
+    public float maxHP;
+    public float curHP;
+    public float searchDistance = 2.0f;
+
+    public float speed = 1.0f;
     public Vector3 target;
     public Vector3 finalTarget;
 
     public Animator anim;
     private bool isRight = true;
-    private bool attack = false;
     private float dirX;
     private float dirY;
 
     public AudioSource walkingSound;
     public AudioSource attackSound;
+    public AudioSource deadSound;
 
     public GameObject follow;
     private bool isFollow = false;
     private GameObject enemyTownHall;
+
+    private bool attacked = false;
+    private bool coroutineStarted = false;
+    private bool attacking = false;
+
+    private IEnumerator coroutine;
+
+    private bool protect = false;
 
     void Start()
     {
@@ -27,77 +39,139 @@ public class orc : MonoBehaviour
         enemyTownHall = GameObject.Find("TownHallHuman");
         finalTarget = enemyTownHall.transform.position;
         anim = GetComponent<Animator>();
+        curHP = maxHP;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (attack && collision.gameObject.name == follow.name)
+        if (collision.gameObject.tag == "footman" || collision.gameObject.name == "TownHallHuman")
         {
-            target = transform.position;
             anim.SetBool("attack", true);
             attackSound.Play();
+        }
+        if (attacked && collision.gameObject.name == "Footman")
+        {
+            coroutine = Damage();
+            StartCoroutine(coroutine);
+            coroutineStarted = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "orc")
+        if (collision.gameObject.tag == "footman" || collision.gameObject.name == "TownHallHuman")
+        {
+            if (coroutineStarted && collision.gameObject.tag == "footman")
+            {
+                attacked = false;
+                StopCoroutine(coroutine);
+                coroutineStarted = false;
+                print("Orc Unit [" + curHP + "/" + maxHP + "]HP has been attacked");
+            }
+            attacking = false;
             anim.SetBool("attack", false);
+        }
+    }
+
+    IEnumerator Damage()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1.0f);
+            curHP--;
+        }
+    }
+
+    void Attacked()
+    {
+        if (!attacked)
+            attacked = true;
+        else
+            attacked = false;
+    }
+
+    void Protect(bool trueOrFalse)
+    {
+        protect = trueOrFalse;
     }
 
     private void SearchForEnemy()
     {
-        GameObject enemyList = GameObject.Find("Footman");
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag("footman");
+        GameObject closest = null;
+        float shortest = searchDistance;
 
+
+        for (int i = 0; i < enemyList.Length; i++)
+        {
+            float distance = Vector3.Distance(transform.position, enemyList[i].transform.position);
+            if (distance < shortest)
+            {
+                shortest = distance;
+                closest = enemyList[i];
+            }
+        }
+        if (closest && shortest > 0.0f && !attacking)
+        {
+            attacking = true;
+            isFollow = true;
+            follow = closest;
+            walkingSound.Play();
+        }
+        else if (shortest > 0.0f && attacking)
+        {
+            
+        }
+        else
+        {
+            isFollow = false;
+            attacking = false;
+        }
     }
 
     void Update()
     {
-        SearchForEnemy();
-        if (Input.GetMouseButtonDown(0))
+        target = finalTarget;
+        if (curHP <= 0)
         {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (!hit || (hit.collider.gameObject.transform.tag != "footman"))
+            deadSound.Play();
+            print("Orc Unit [" + curHP + "/" + maxHP + "]HP has been attacked");
+            Destroy(gameObject);
+        }
+        else
+        {
+            if (protect)
             {
-                if (hit)
-                {
-                    attack = true;
-                    follow = hit.collider.gameObject;
-                    isFollow = true;
-                }
-                else
-                    isFollow = false;
-                walkingSound.Play();
-                target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                target.z = transform.position.z;
-                dirX = target.x - transform.position.x;
-                dirY = target.y - transform.position.y;
-                anim.SetBool("walk", true);
-                anim.SetFloat("x", dirX);
-                anim.SetFloat("y", dirY);
-                flip();
+                target = GameObject.Find("TownHallOrc").transform.position;
             }
-        }
-        if (isFollow && !follow)
-        {
-            isFollow = false;
-            follow = null;
-            anim.SetBool("attack", false);
-        }
-        if (isFollow)
-        {
-            target = follow.transform.position;
+            else
+            {
+                SearchForEnemy();
+                if (!follow)
+                {
+                    if (isFollow)
+                    {
+                       isFollow = false;
+                       follow = null;
+                       anim.SetBool("attack", false);
+                       walkingSound.Play();
+                    }
+                }
+                if (isFollow)
+                    target = follow.transform.position;
+            }
+            target.z = transform.position.z;
             dirX = target.x - transform.position.x;
             dirY = target.y - transform.position.y;
+            anim.SetBool("walk", true);
             anim.SetFloat("x", dirX);
             anim.SetFloat("y", dirY);
             flip();
-            anim.SetBool("walk", true);
-        }
-        transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        if (transform.position == target)
-        {
-            anim.SetBool("walk", false);
+            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+            if (transform.position == target)
+            {
+                anim.SetBool("walk", false);
+            }
         }
     }
 

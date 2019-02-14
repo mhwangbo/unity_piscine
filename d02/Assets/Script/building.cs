@@ -19,9 +19,6 @@ public class building : MonoBehaviour
 
     public AudioSource deadSound;
 
-    private float timer = 0.0f;
-    private float waitTime = 10.0f;
-
     private void OnMouseDown()
     {
         enabled = true;
@@ -37,7 +34,8 @@ public class building : MonoBehaviour
         yield return new WaitForSeconds(2);
         if (collision.IsTouching(gameObject.GetComponent<Collider2D>()))
         {
-            if (collision.gameObject.tag != transform.gameObject.tag)
+            if ((collision.gameObject.tag == "footman" && transform.gameObject.tag == "orcTown")
+    || (collision.gameObject.tag == "orc" && transform.gameObject.name == "TownHallHuman"))
             {
                 coroutine = Damage();
                 StartCoroutine(coroutine);
@@ -52,7 +50,7 @@ public class building : MonoBehaviour
         {
             StopCoroutine(coroutine);
             coroutineStarted = false;
-            if (transform.gameObject.tag == "orc")
+            if (transform.gameObject.tag == "orcTown")
                 print("Orc Unit [" + curHP + "/" + maxHP + "]HP has been attacked");
             else
                 print("Human Unit [" + curHP + "/" + maxHP + "]HP has been attacked");
@@ -70,28 +68,12 @@ public class building : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
         if (curHP <= 0)
         {
             isDead = true;
             deadSound.Play();
             th.IncreaseWaitTime();
             Destroy(gameObject);
-        }
-        if (timer > waitTime && transform.name == "TownHall")
-        {
-            timer -= waitTime;
-            if (transform.tag == "orc")
-            {
-                GameObject summon = (GameObject)Instantiate(orcPrefab, oController.transform.position, oController.transform.rotation);
-                summon.transform.parent = oController.transform;
-            }
-            else
-            {
-                GameObject summon = (GameObject)Instantiate(footmanPrefab, fmController.transform.position, transform.rotation);
-                summon.GetComponent<footman>().fmController = fmController;
-                summon.transform.parent = fmController.transform;
-            }
         }
     }
 }
