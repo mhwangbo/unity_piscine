@@ -63,6 +63,7 @@
     <Compile Include="Assets\Script\building.cs" />
     <Compile Include="Assets\Script\footman.cs" />
     <Compile Include="Assets\Script\footmanController.cs" />
+    <Compile Include="Assets\Script\orc.cs" />
     <Compile Include="Assets\Script\orcController.cs" />
     <Compile Include="Assets\Script\townHall.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
