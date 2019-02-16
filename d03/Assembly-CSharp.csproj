@@ -66,8 +66,11 @@
     <Compile Include="Assets\Scripts\explosion.cs" />
     <Compile Include="Assets\Scripts\gameManager.cs" />
     <Compile Include="Assets\Scripts\gatlingImpactScript.cs" />
+    <Compile Include="Assets\Scripts\MyScript\FireBallController.cs" />
     <Compile Include="Assets\Scripts\MyScript\MenuBarController.cs" />
+    <Compile Include="Assets\Scripts\MyScript\Reload.cs" />
     <Compile Include="Assets\Scripts\MyScript\ScoreBoardController.cs" />
+    <Compile Include="Assets\Scripts\MyScript\ShortcutController.cs" />
     <Compile Include="Assets\Scripts\MyScript\TitleController.cs" />
     <Compile Include="Assets\Scripts\MyScript\TowerController.cs" />
     <Compile Include="Assets\Scripts\MyScript\UpgradeController.cs" />

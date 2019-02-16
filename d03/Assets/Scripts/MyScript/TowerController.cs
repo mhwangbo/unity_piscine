@@ -14,7 +14,7 @@ public class TowerController : MonoBehaviour, IDragHandler, IEndDragHandler
     public towerScript towerS;
     public GameObject towerPrefab;
     private Vector3 originalPosition;
-    private bool isDraggable = true;
+    public bool isDraggable = true;
     private Image color;
 
     void Start()
@@ -51,14 +51,19 @@ public class TowerController : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         if (isDraggable)
         {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (hit && (hit.collider.gameObject.transform.tag == "empty"))
-            {
-                Transform targetTransform = hit.collider.gameObject.transform;
-                GameObject tower = (GameObject)Instantiate(towerPrefab, targetTransform.position, targetTransform.rotation);
-                gm.playerEnergy -= towerS.energy;
-            }
-            transform.position = originalPosition;
+            Place();
         }
+    }
+
+    public void Place()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+        if (hit && (hit.collider.gameObject.transform.tag == "empty"))
+        {
+            Transform targetTransform = hit.collider.gameObject.transform;
+            GameObject tower = (GameObject)Instantiate(towerPrefab, targetTransform.position, targetTransform.rotation);
+            gm.playerEnergy -= towerS.energy;
+        }
+        transform.position = originalPosition;
     }
 }

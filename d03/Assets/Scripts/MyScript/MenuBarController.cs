@@ -72,8 +72,6 @@ public class MenuBarController : MonoBehaviour
             pauseMenu = true;
         }
         if (gm.gameEnd > 0)
-        {
             scoreBoardPanel.SetActive(true);
-        }
     }
 }
