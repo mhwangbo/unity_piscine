@@ -40,7 +40,12 @@ public class Sonic : MonoBehaviour
 	public AudioSource aSpike;
 	public AudioSource aDeath;
 
-	void Awake()	{
+    public GameObject ringPrefab;
+    private int ringDestroy;
+
+    [HideInInspector] public bool isRing;
+
+    void Awake()	{
 		animator = GetComponent<Animator>();
 		rbody = GetComponent<Rigidbody2D>();
 		currentMat = GetComponent<CircleCollider2D>().sharedMaterial;
@@ -61,6 +66,7 @@ public class Sonic : MonoBehaviour
 
 	void Start() {
 		respawn();
+        isRing = true;
 	}
 
 	void checkFalling() {
@@ -229,52 +235,74 @@ public class Sonic : MonoBehaviour
 	}
 
 	public void getHit() {
-
-		// ▌─────────────────────────▐█─────▐
-		// ▌────▄──────────────────▄█▓█▌────▐
-		// ▌───▐██▄───────────────▄▓░░▓▓────▐
-		// ▌───▐█░██▓────────────▓▓░░░▓▌────▐
-		// ▌───▐█▌░▓██──────────█▓░░░░▓─────▐
-		// ▌────▓█▌░░▓█▄███████▄███▓░▓█─────▐
-		// ▌────▓██▌░▓██░░░░░░░░░░▓█░▓▌─────▐
-		// ▌─────▓█████░░░░░░░░░░░░▓██──────▐
-		// ▌─────▓██▓░░░░░░░░░░░░░░░▓█──────▐
-		// ▌─────▐█▓░░░░░░█▓░░▓█░░░░▓█▌─────▐
-		// ▌─────▓█▌░▓█▓▓██▓░█▓▓▓▓▓░▓█▌─────▐
-		// ▌─────▓▓░▓██████▓░▓███▓▓▌░█▓─────▐
-		// ▌────▐▓▓░█▄▐▓▌█▓░░▓█▐▓▌▄▓░██─────▐
-		// ▌────▓█▓░▓█▄▄▄█▓░░▓█▄▄▄█▓░██▌────▐
-		// ▌────▓█▌░▓█████▓░░░▓███▓▀░▓█▓────▐
-		// ▌───▐▓█░░░▀▓██▀░░░░░─▀▓▀░░▓█▓────▐
-		// ▌───▓██░░░░░░░░▀▄▄▄▄▀░░░░░░▓▓────▐
-		// ▌───▓█▌░░░░░░░░░░▐▌░░░░░░░░▓▓▌───▐
-		// ▌───▓█░░░░░░░░░▄▀▀▀▀▄░░░░░░░█▓───▐
-		// ▌──▐█▌░░░░░░░░▀░░░░░░▀░░░░░░█▓▌──▐
-		// ▌──▓█░░░░░░░░░░░░░░░░░░░░░░░██▓──▐
-		// ▌──▓█░░░░░░░░░░░░░░░░░░░░░░░▓█▓──▐
-		// ▌──██░░░░░░░░░░░░░░░░░░░░░░░░█▓──▐
-		// ▌──█▌░░░░░░░░░░░░░░░░░░░░░░░░▐▓▌─▐
-		// ▌─▐▓░░░░░░░░░░░░░░░░░░░░░░░░░░█▓─▐
-		// ▌─█▓░░░░░░░░░░░░░░░░░░░░░░░░░░▓▓─▐
-		// ▌─█▓░░░░░░░░░░░░░░░░░░░░░░░░░░▓▓▌▐
-		// ▌▐█▓░░░░░░░░░░░░░░░░░░░░░░░░░░░██▐
-		// ▌█▓▌░░░░░░░░░░░░░░░░░░░░░░░░░░░▓█▐
-		// ██████████████████████████████████
-		// █░▀░░░░▀█▀░░░░░░▀█░░░░░░▀█▀░░░░░▀█
-		// █░░▐█▌░░█░░░██░░░█░░██░░░█░░░██░░█
-		// █░░▐█▌░░█░░░██░░░█░░██░░░█░░░██░░█
-		// █░░▐█▌░░█░░░██░░░█░░░░░░▄█░░▄▄▄▄▄█
-		// █░░▐█▌░░█░░░██░░░█░░░░████░░░░░░░█
-		// █░░░█░░░█▄░░░░░░▄█░░░░████▄░░░░░▄█
-		// ██████████████████████████████████
-
+        if (rings > 0)
+        {
+            rbody.velocity = Vector2.zero;
+            rbody.AddForce(new Vector2(0, 15), ForceMode2D.Impulse);
+            isHit = true;
+            animator.SetBool("getHit", true);
+            StartCoroutine(ExplodeRings());
+            StartCoroutine(Wait());
+        }
+        else
+            dead();
 	}
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(2.0f);
+        stopHit();
+        StartCoroutine(invincible());
+        aLoseRings.Play();
+        rings = 0;
+    }
+
+    IEnumerator ExplodeRings()
+    {
+        isRing = false;
+        ringDestroy = Mathf.CeilToInt(rings / 2);
+        PlayerPrefs.SetInt("ringLost", PlayerPrefs.GetInt("ringLost") + rings);
+
+        GameObject[] ringHolder = new GameObject[ringDestroy];
+
+        for (int i = 0; i < ringDestroy; i++)
+        {
+            Vector3 rand = Random.insideUnitSphere * 5 + transform.position;
+            rand.y = Mathf.Abs(rand.y) + 1;
+
+            GameObject ring = (GameObject)Instantiate(ringPrefab, rand, Quaternion.identity);
+            ringHolder[i] = ring;
+        }
+
+        yield return new WaitForSeconds(2.0f);
+
+        isRing = true;
+        SpriteRenderer[] sr = new SpriteRenderer[ringDestroy];
+
+        for (int i = 0; i < ringDestroy; i++)
+            sr[i] = ringHolder[i].GetComponent<SpriteRenderer>();
+        for (int i = 0; i < 12; i++)
+        {
+            for (int j = 0; j < ringDestroy; j++)
+                if (sr[j])
+                    sr[j].color = Color.clear;
+            yield return new WaitForSeconds(0.1f);
+            for (int j = 0; j < ringDestroy; j++)
+                if (sr[j])
+                    sr[j].color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+        }
+        for (int i = 0; i < ringDestroy; i++)
+            if (ringHolder[i])
+                Destroy(ringHolder[i]);
+    }
 
 	void stopHit() {
 		isHit = false;
 	}
 
 	void dead(){
+        PlayerPrefs.SetInt("lostLife", PlayerPrefs.GetInt("lostLife") + 1);
 		aDeath.Play ();
 		animator.SetBool("dead", true);
 		isDead = true;

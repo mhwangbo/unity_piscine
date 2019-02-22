@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class DataSelectorController : MonoBehaviour
 {
     private Text lifeLost;
+    private Text ringLost;
     private Text bestScore;
 
     private int modernLevel;
@@ -30,9 +31,10 @@ public class DataSelectorController : MonoBehaviour
         allRoute[2] = dubstepRoute;
 
         lifeLost = GameObject.Find("LifeLostText").GetComponent<UnityEngine.UI.Text>();
+        ringLost = GameObject.Find("RingLostText").GetComponent<UnityEngine.UI.Text>();
         bestScore = GameObject.Find("BestScoreText").GetComponent<UnityEngine.UI.Text>();
         lifeLost.text = "" + PlayerPrefs.GetInt("lostLife");
-        bestScore.text = "" + PlayerPrefs.GetInt("bestScore");
+        ringLost.text = "" + PlayerPrefs.GetInt("ringLost");
 
         modernLevel = PlayerPrefs.GetInt("modernLevel");
         metalLevel = PlayerPrefs.GetInt("metalLevel");
@@ -44,6 +46,8 @@ public class DataSelectorController : MonoBehaviour
             metalRoute[i].SetActive(false);
         for (int i = dubstepLevel + 1; i < 4; i++)
             dubstepRoute[i].SetActive(false);
+
+        bestScore.text = "" + PlayerPrefs.GetInt("AngelIsland");
     }
 
     // Update is called once per frame
@@ -60,9 +64,13 @@ public class DataSelectorController : MonoBehaviour
             if (Input.GetKeyDown("down"))
                 j += (j < 2 ? 1 : -2);
             selector.transform.position = allRoute[j][i].transform.position;
+            string stageName = allRoute[j][i].transform.name;
+            if (allRoute[j][i].activeInHierarchy)
+                bestScore.text = "" + PlayerPrefs.GetInt(stageName);
+            else
+                bestScore.text = "LOCKED";
             if (allRoute[j][i].activeInHierarchy && Input.GetKeyDown("return"))
             {
-                string stageName = allRoute[j][i].transform.name;
                 SceneManager.LoadScene(stageName);
             }
         }

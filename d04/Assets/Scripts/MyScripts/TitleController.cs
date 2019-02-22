@@ -37,9 +37,14 @@ public class TitleController : MonoBehaviour
     {
         PlayerPrefs.SetInt("lostLife", 0);
         PlayerPrefs.SetInt("bestScore", 0);
+        PlayerPrefs.SetInt("ringLost", 0);
         PlayerPrefs.SetInt("modernLevel", 0);
         PlayerPrefs.SetInt("metalLevel", 0);
         PlayerPrefs.SetInt("dubstepLevel", 0);
+        PlayerPrefs.SetInt("AngelIsland", 0);
+        PlayerPrefs.SetInt("ChemicalPlant", 0);
+        PlayerPrefs.SetInt("FlyingBattery", 0);
+        PlayerPrefs.SetInt("OilOcean", 0);
         ResetText.SetActive(true);
     }
 }
