@@ -61,13 +61,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\cameraScript.cs" />
+    <Compile Include="Assets\Scripts\MyScripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\MyScripts\Bumper.cs" />
     <Compile Include="Assets\Scripts\MyScripts\DataSelectorController.cs" />
+    <Compile Include="Assets\Scripts\MyScripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\MyScripts\MovingPlatform.cs" />
     <Compile Include="Assets\Scripts\MyScripts\Ring.cs" />
     <Compile Include="Assets\Scripts\MyScripts\Sign.cs" />
     <Compile Include="Assets\Scripts\MyScripts\Spike.cs" />
     <Compile Include="Assets\Scripts\MyScripts\TitleController.cs" />
+    <Compile Include="Assets\Scripts\MyScripts\Trap.cs" />
+    <Compile Include="Assets\Scripts\MyScripts\TV.cs" />
     <Compile Include="Assets\Scripts\MyScripts\UIController.cs" />
     <Compile Include="Assets\Scripts\RampBoost.cs" />
     <Compile Include="Assets\Scripts\Sonic.cs" />

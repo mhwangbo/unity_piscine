@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/AngelIsland.unity
+- path: Assets/Scenes/ChemicalPlant.unity
   isLoaded: 1
   isActive: 1

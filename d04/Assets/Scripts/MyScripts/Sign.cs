@@ -16,6 +16,8 @@ public class Sign : MonoBehaviour
             uiController.gameEnd = true;
             gameObject.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             sound.Play();
+            if (PlayerPrefs.GetInt("modernLevel") < 4)
+                PlayerPrefs.SetInt("modernLevel", PlayerPrefs.GetInt("modernLevel") + 1);
         }
     }
 }

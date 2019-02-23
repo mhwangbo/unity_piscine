@@ -11,7 +11,6 @@ public class UIController : MonoBehaviour
     public Text gameScore;
     public Sonic sonic;
     public static float timer;
-    [HideInInspector] public int enemyKilled;
     [HideInInspector] public bool gameEnd = false;
     private bool wait = false;
     private int scoreDisplay;
@@ -55,7 +54,7 @@ public class UIController : MonoBehaviour
 
     private int ScoreCalculation()
     {
-        float score = (500 * enemyKilled) + (100 * sonic.rings) + (20000 - (100 * (timer)));
+        float score = (500 * sonic.enemyKilled) + (100 * sonic.rings) + (20000 - (100 * (timer)));
         return (Mathf.FloorToInt(score));
     }
 }
