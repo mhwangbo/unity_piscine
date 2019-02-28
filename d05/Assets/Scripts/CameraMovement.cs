@@ -17,6 +17,7 @@ public class CameraMovement : MonoBehaviour
 
     public GameObject ball;
     public BallController ballScript;
+    public GolfController golfController;
     private Vector3 point;
 
     private void Start()
@@ -31,48 +32,57 @@ public class CameraMovement : MonoBehaviour
     private void PointCalculation()
     {
         point = ball.transform.position;
-        transform.position = ball.transform.position + offset;
+        transform.position = point + offset;
         transform.LookAt(point);
     }
 
     void Update()
     {
-        if (!locked)
+        if (ballScript.isSleeping)
         {
-            yaw += speedH * Input.GetAxis("Mouse X");
-            pitch -= speedV * Input.GetAxis("Mouse Y");
-            transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
-        }
-        if (Input.GetKey("e"))
-            moveCamera(Vector3.up);
-        if (Input.GetKey("q"))
-            moveCamera(Vector3.down);
-        if (!locked)
-        {
-            if (Input.GetKey("w"))
-                moveCamera(Vector3.forward);
-            if (Input.GetKey("s"))
-                moveCamera(Vector3.back);
-            if (Input.GetKey("a"))
-                moveCamera(Vector3.left);
-            if (Input.GetKey("d"))
-                moveCamera(Vector3.right);
-            if (Input.GetKeyDown("space"))
+            if (Input.GetKey("e"))
+                moveCamera(Vector3.up);
+            if (Input.GetKey("q"))
+                moveCamera(Vector3.down);
+            if (!locked)
             {
-                transform.position = originalPos;
-                transform.eulerAngles = originalAng;
-                locked = true;
+                yaw += speedH * Input.GetAxis("Mouse X");
+                pitch -= speedV * Input.GetAxis("Mouse Y");
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                if (Input.GetKey("w"))
+                    moveCamera(Vector3.forward);
+                if (Input.GetKey("s"))
+                    moveCamera(Vector3.back);
+                if (Input.GetKey("a"))
+                    moveCamera(Vector3.left);
+                if (Input.GetKey("d"))
+                    moveCamera(Vector3.right);
+                if (Input.GetKeyDown("space"))
+                {
+                    transform.position = originalPos;
+                    transform.eulerAngles = originalAng;
+                    locked = true;
+                }
+            }
+            else
+            {
+                if (Input.GetKey("a") || Input.GetKey("d"))
+                    transform.RotateAround(point, new Vector3(0f, Input.GetAxis("Horizontal"), 0f), 5 * Time.deltaTime * speedH);
             }
         }
         else
         {
-            if (Input.GetKey("a") || Input.GetKey("d"))
-            {
-                transform.RotateAround(point, new Vector3(0f, Input.GetAxis("Horizontal"), 0f), 5 * Time.deltaTime * speedH);
-            }
+            point = ball.transform.position;
+            transform.LookAt(point);
         }
-        if (ballScript.isSleeping)
+        if (ballScript.isSleeping && golfController.isShoot)
+        {
+            print(ballScript.isSleeping + "   " + golfController.isShoot);
             PointCalculation();
+            ballScript.StopHit();
+            golfController.isShoot = false;
+        }
+
 
     }
 

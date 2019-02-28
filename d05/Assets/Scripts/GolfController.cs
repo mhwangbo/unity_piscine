@@ -10,16 +10,21 @@ public class GolfController : MonoBehaviour
     public GameObject ball;
     public GameObject arrow;
     private bool isPowerBarStarted;
+    public bool isShoot;
 
     void Update()
     {
         if (cameraScript.locked)
         {
-            Quaternion ballRotation = Camera.main.transform.rotation;
-            ballRotation.x = 0;
-            ballRotation.z = 0;
+            if (ballController.isSleeping)
+            {
+                Quaternion ballRotation = Camera.main.transform.rotation;
+                ballRotation.x = 0;
+                ballRotation.z = 0;
 
-            ball.transform.rotation = Quaternion.RotateTowards(ball.transform.rotation, ballRotation, 20.0f);
+                ball.transform.rotation = Quaternion.RotateTowards(ball.transform.rotation, ballRotation, 20.0f);
+
+            }
             if (!uiController.onLockScreen.activeSelf)
             {
                 uiController.onLockScreen.SetActive(true);
@@ -36,7 +41,8 @@ public class GolfController : MonoBehaviour
                 }
                 else
                 {
-                    ballController.Hit(1.0f);
+                    ballController.Hit(uiController.powerLevel);
+                    isShoot = true;
                 }
 
             }

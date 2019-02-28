@@ -14,10 +14,12 @@ public class BallController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        isSleeping = true;
     }
 
     public void Hit(float power)
     {
+        isSleeping = false;
         rb.AddForce((transform.forward + transform.up) * 20.0f * power, ForceMode.Impulse);
         coroutine = StartCoroutine(CheckMoving());
     }
@@ -29,16 +31,13 @@ public class BallController : MonoBehaviour
 
     private IEnumerator CheckMoving()
     {
-        while (true)
+        while (!isSleeping)
         {
-            if (rb.velocity.x <= 0.01 && rb.velocity.y <= 0.01 && rb.velocity.z <= 0.01)
-            {
+            yield return new WaitForSeconds(1.0f);
+            if (rb.velocity == Vector3.zero)
                 isSleeping = true;
-                rb.velocity = Vector3.zero;
-            }
             else
                 isSleeping = false;
-            yield return new WaitForSeconds(0.1f);
         }
     }
 
