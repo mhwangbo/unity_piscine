@@ -22,8 +22,6 @@ public class CameraMovement : MonoBehaviour
 
     private void Start()
     {
-        originalPos = transform.position;
-        originalAng = transform.eulerAngles;
         offset = transform.position - ball.transform.position;
         locked = true;
         PointCalculation();
@@ -34,6 +32,8 @@ public class CameraMovement : MonoBehaviour
         point = ball.transform.position;
         transform.position = point + offset;
         transform.LookAt(point);
+        originalPos = transform.position;
+        originalAng = transform.eulerAngles;
     }
 
     void Update()
@@ -77,7 +77,6 @@ public class CameraMovement : MonoBehaviour
         }
         if (ballScript.isSleeping && golfController.isShoot)
         {
-            print(ballScript.isSleeping + "   " + golfController.isShoot);
             PointCalculation();
             ballScript.StopHit();
             golfController.isShoot = false;

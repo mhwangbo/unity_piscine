@@ -443,6 +443,7 @@ MonoBehaviour:
   speedM: 4
   ball: {fileID: 1462225161}
   ballScript: {fileID: 1462225162}
+  golfController: {fileID: 1676858648}
 --- !u!135 &534669907
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -677,7 +678,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Hole
+  m_Text: Hole 1
 --- !u!222 &1072198127
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1159,7 +1160,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Shot
+  m_Text: Shot 0
 --- !u!222 &1470007816
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1238,7 +1239,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: (par)
+  m_Text: (par 3)
 --- !u!222 &1524188224
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1419,6 +1420,7 @@ MonoBehaviour:
   ballController: {fileID: 1462225162}
   ball: {fileID: 1462225161}
   arrow: {fileID: 1159816296}
+  isShoot: 0
 --- !u!4 &1676858649
 Transform:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class GolfController : MonoBehaviour
     public GameObject arrow;
     private bool isPowerBarStarted;
     public bool isShoot;
+    private int shotNumber;
 
     void Update()
     {
@@ -42,6 +43,7 @@ public class GolfController : MonoBehaviour
                 else
                 {
                     ballController.Hit(uiController.powerLevel);
+                    uiController.ShotInfo(++shotNumber);
                     isShoot = true;
                 }
 
