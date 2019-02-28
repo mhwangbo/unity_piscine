@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    public bool hole;
-    [HideInInspector]public bool isSleeping;
+    [HideInInspector] public bool hole;
+    public UIController uiController;
+    [HideInInspector] public bool isSleeping;
     private Rigidbody rb;
+    private float time;
 
     private Vector3 hitSpeed = new Vector3(0, 0, 0);
     private Coroutine coroutine;
@@ -20,8 +22,10 @@ public class BallController : MonoBehaviour
     public void Hit(float powerForward, float powerUp)
     {
         isSleeping = false;
-        powerForward *= 20.0f;
-        powerUp *= 20.0f;
+        time = 0;
+        rb.drag = 1.0f;
+        powerForward *= 20.0f * uiController.powerLevel;
+        powerUp *= 20.0f * uiController.powerLevel;
         rb.AddForce((transform.forward * powerForward + transform.up * powerUp), ForceMode.Impulse);
         coroutine = StartCoroutine(CheckMoving());
     }
@@ -35,6 +39,10 @@ public class BallController : MonoBehaviour
     {
         while (!isSleeping)
         {
+            time += Time.deltaTime;
+            print(time);
+            if (time > 0.20f)
+                rb.drag = 50.0f;
             yield return new WaitForSeconds(1.0f);
             if (rb.velocity == Vector3.zero)
                 isSleeping = true;

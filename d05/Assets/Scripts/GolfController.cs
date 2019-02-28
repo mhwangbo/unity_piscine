@@ -85,14 +85,20 @@ public class GolfController : MonoBehaviour
             case 1:
                 forward = 2.0f;
                 up = 0.8f;
+                arrow.transform.Rotate(Vector3.left * 30.0f);
+                arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.7f);
                 break;
             case 2:
                 forward = 1.5f;
                 up = 1.5f;
+                arrow.transform.Rotate(Vector3.right * 10.0f);
+                arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.5f);
                 break;
             case 3:
                 forward = 0.8f;
-                up = 3.0f;
+                up = 2.2f;
+                arrow.transform.Rotate(Vector3.right * 20.0f);
+                arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
                 break;
             case 4:
                 forward = 1.0f;
