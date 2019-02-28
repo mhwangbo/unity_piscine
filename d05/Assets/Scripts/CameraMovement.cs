@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    private GameObject golfBall;
     private Vector3 originalPos;
     private Vector3 originalAng;
     private Vector3 offset;
-    private bool locked;
+    [HideInInspector] public bool locked;
 
     public float speedH = 20.0f;
     public float speedV = 20.0f;
@@ -16,13 +15,24 @@ public class CameraMovement : MonoBehaviour
     private float yaw = 0.0f;
     private float pitch = 0.0f;
 
+    public GameObject ball;
+    public BallController ballScript;
+    private Vector3 point;
+
     private void Start()
     {
-        golfBall = GameObject.Find("GolfBall");
         originalPos = transform.position;
         originalAng = transform.eulerAngles;
-        offset = transform.position - golfBall.transform.position;
+        offset = transform.position - ball.transform.position;
         locked = true;
+        PointCalculation();
+    }
+
+    private void PointCalculation()
+    {
+        point = ball.transform.position;
+        transform.position = ball.transform.position + offset;
+        transform.LookAt(point);
     }
 
     void Update()
@@ -37,26 +47,39 @@ public class CameraMovement : MonoBehaviour
             moveCamera(Vector3.up);
         if (Input.GetKey("q"))
             moveCamera(Vector3.down);
-        if (Input.GetKey("w"))
-            moveCamera(Vector3.forward);
-        if (Input.GetKey("s"))
-            moveCamera(Vector3.back);
-        if (Input.GetKey("a"))
-            moveCamera(Vector3.left);
-        if (Input.GetKey("d"))
-            moveCamera(Vector3.right);
-        if (Input.GetKeyDown("space"))
+        if (!locked)
         {
-            transform.position = originalPos;
-            transform.eulerAngles = originalAng;
-            locked = true;
+            if (Input.GetKey("w"))
+                moveCamera(Vector3.forward);
+            if (Input.GetKey("s"))
+                moveCamera(Vector3.back);
+            if (Input.GetKey("a"))
+                moveCamera(Vector3.left);
+            if (Input.GetKey("d"))
+                moveCamera(Vector3.right);
+            if (Input.GetKeyDown("space"))
+            {
+                transform.position = originalPos;
+                transform.eulerAngles = originalAng;
+                locked = true;
+            }
         }
+        else
+        {
+            if (Input.GetKey("a") || Input.GetKey("d"))
+            {
+                transform.RotateAround(point, new Vector3(0f, Input.GetAxis("Horizontal"), 0f), 5 * Time.deltaTime * speedH);
+            }
+        }
+        if (ballScript.isSleeping)
+            PointCalculation();
+
     }
 
     void moveCamera(Vector3 direction)
     {
-        transform.Translate(direction * Time.deltaTime * speedM);
         if (locked)
             locked = false;
+        transform.Translate(direction * Time.deltaTime * speedM);
     }
 }
