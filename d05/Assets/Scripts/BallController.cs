@@ -17,10 +17,12 @@ public class BallController : MonoBehaviour
         isSleeping = true;
     }
 
-    public void Hit(float power)
+    public void Hit(float powerForward, float powerUp)
     {
         isSleeping = false;
-        rb.AddForce((transform.forward + transform.up) * 20.0f * power, ForceMode.Impulse);
+        powerForward *= 20.0f;
+        powerUp *= 20.0f;
+        rb.AddForce((transform.forward * powerForward + transform.up * powerUp), ForceMode.Impulse);
         coroutine = StartCoroutine(CheckMoving());
     }
 

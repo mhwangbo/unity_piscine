@@ -10,8 +10,20 @@ public class GolfController : MonoBehaviour
     public GameObject ball;
     public GameObject arrow;
     private bool isPowerBarStarted;
-    public bool isShoot;
+    [HideInInspector]public bool isShoot;
     private int shotNumber;
+    private int holeNumber;
+    private int clubNumber;
+
+    private float forward;
+    private float up;
+
+    private void Start()
+    {
+        forward = 2.0f;
+        up = 0.8f;
+        clubNumber = 1;
+    }
 
     void Update()
     {
@@ -26,13 +38,15 @@ public class GolfController : MonoBehaviour
                 ball.transform.rotation = Quaternion.RotateTowards(ball.transform.rotation, ballRotation, 20.0f);
 
             }
-            if (!uiController.onLockScreen.activeSelf)
+            else
+            {
+                TurnOffUI();
+            }
+            if (ballController.isSleeping && !uiController.onLockScreen.activeSelf)
             {
                 uiController.onLockScreen.SetActive(true);
                 arrow.SetActive(true);
             }
-
-
             if (Input.GetKeyDown("space"))
             {
                 if (!isPowerBarStarted)
@@ -42,22 +56,59 @@ public class GolfController : MonoBehaviour
                 }
                 else
                 {
-                    ballController.Hit(uiController.powerLevel);
+                    ballController.Hit(forward, up);
                     uiController.ShotInfo(++shotNumber);
                     isShoot = true;
                 }
 
             }
+            if (Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown("r"))
+            {
+                SetClubInfo();
+            }
         }
         else if (!cameraScript.locked)
         {
-            uiController.onLockScreen.SetActive(false);
-            if (isPowerBarStarted)
-            {
-                uiController.StopPowerBar(true);
-                isPowerBarStarted = false;
-            }
-            arrow.SetActive(false);
+            TurnOffUI();
         }
+    }
+
+    private void SetClubInfo()
+    {
+        if (clubNumber < 4)
+            clubNumber++;
+        else
+            clubNumber = 1;
+        uiController.ClubInfo(clubNumber);
+        switch (clubNumber)
+        {
+            case 1:
+                forward = 2.0f;
+                up = 0.8f;
+                break;
+            case 2:
+                forward = 1.5f;
+                up = 1.5f;
+                break;
+            case 3:
+                forward = 0.8f;
+                up = 3.0f;
+                break;
+            case 4:
+                forward = 1.0f;
+                up = 0.0f;
+                break;
+        }
+    }
+
+    private void TurnOffUI()
+    {
+        uiController.onLockScreen.SetActive(false);
+        if (isPowerBarStarted)
+        {
+            uiController.StopPowerBar(true);
+            isPowerBarStarted = false;
+        }
+        arrow.SetActive(false);
     }
 }
