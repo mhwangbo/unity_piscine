@@ -40,7 +40,7 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        if (ballScript.isSleeping)
+        if (ballScript.isSleeping && !ballScript.hole && !ballScript.inWater)
         {
             if (Input.GetKey("e"))
                 moveCamera(Vector3.up);
@@ -71,7 +71,7 @@ public class CameraMovement : MonoBehaviour
                 if (Input.GetKey("a") || Input.GetKey("d"))
                     transform.RotateAround(point, new Vector3(0f, Input.GetAxis("Horizontal"), 0f), 5 * Time.deltaTime * speedH);
             }
-            if (prevBallPos != ball.transform.position)
+            if (!ballScript.hole && prevBallPos != ball.transform.position)
             {
                 PointCalculation();
                 prevBallPos = ball.transform.position;

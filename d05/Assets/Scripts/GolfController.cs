@@ -12,6 +12,7 @@ public class GolfController : MonoBehaviour
     public GameObject arrow;
     public GameObject[] teeboxes;
     public GameObject[] golfHole;
+    public GameObject inWaterText;
     public int[] parNumber;
     public GameObject holeInMessage;
     public ScorePanelController scorePanelController;
@@ -51,7 +52,6 @@ public class GolfController : MonoBehaviour
                 ballRotation.z = 0;
 
                 ball.transform.rotation = Quaternion.RotateTowards(ball.transform.rotation, ballRotation, 20.0f);
-
             }
             else
             {
@@ -119,7 +119,14 @@ public class GolfController : MonoBehaviour
         if (ballController.inWater)
         {
             ball.transform.position = prevPosition;
-            ballController.inWater = false;
+            inWaterText.SetActive(true);
+            if (Input.GetKeyDown("return"))
+            {
+                uiController.ShotInfo(++shotNumber);
+                ballController.inWater = false;
+                inWaterText.SetActive(false);
+            }
+
         }
         if (terrainIndex == 1 && !clubChanged)
         {
@@ -174,7 +181,10 @@ public class GolfController : MonoBehaviour
         Transform t = teeboxes[holeNumber - 1].transform;
         Vector3 transport = new Vector3(t.position.x, t.position.y, t.position.z);
         ball.transform.position = transport;
+        if (holeNumber > 1)
+            golfHole[holeNumber - 2].SetActive(false);
         golfHole[holeNumber - 1].SetActive(true);
+        ball.transform.LookAt(golfHole[holeNumber - 1].transform);
         ballController.hole = false;
     }
 
