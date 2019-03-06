@@ -6,12 +6,14 @@ public class BallController : MonoBehaviour
 {
     [HideInInspector] public bool hole;
     public UIController uiController;
+    public GolfController golfController;
     [HideInInspector] public bool isSleeping;
     private Rigidbody rb;
     private float time;
 
     private Vector3 hitSpeed = new Vector3(0, 0, 0);
     private Coroutine coroutine;
+    [HideInInspector] public bool inWater;
 
     private void Start()
     {
@@ -40,7 +42,8 @@ public class BallController : MonoBehaviour
         while (!isSleeping)
         {
             time += Time.deltaTime;
-            print(time);
+            if (golfController.terrainIndex == 1 && time > 0.05f)
+                rb.drag = 50.0f;
             if (time > 0.20f)
                 rb.drag = 50.0f;
             yield return new WaitForSeconds(1.0f);
@@ -55,11 +58,7 @@ public class BallController : MonoBehaviour
     {
         if (other.gameObject.transform.tag == "hole")
             hole = true;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.transform.tag == "hole")
-            hole = false;
+        if (other.gameObject.layer == 4)
+            inWater = true;
     }
 }

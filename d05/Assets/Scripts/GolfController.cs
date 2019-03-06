@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GolfController : MonoBehaviour
 {
@@ -9,25 +10,38 @@ public class GolfController : MonoBehaviour
     public BallController ballController;
     public GameObject ball;
     public GameObject arrow;
+    public GameObject[] teeboxes;
+    public GameObject[] golfHole;
+    public int[] parNumber;
+    public GameObject holeInMessage;
+    public ScorePanelController scorePanelController;
     private bool isPowerBarStarted;
-    [HideInInspector]public bool isShoot;
     private int shotNumber;
     private int holeNumber;
     private int clubNumber;
 
+    [HideInInspector] public bool isShoot;
+    [HideInInspector] public float terrainForward;
+    [HideInInspector] public float terrainUp;
+    [HideInInspector] public int terrainIndex;
+
     private float forward;
     private float up;
 
+    private Vector3 prevPosition;
+
     private void Start()
     {
+        clubNumber = 1;
+        holeNumber = 1;
         forward = 2.0f;
         up = 0.8f;
-        clubNumber = 1;
+        SetHoleInfo();
     }
 
     void Update()
     {
-        if (cameraScript.locked)
+        if (cameraScript.locked && !ballController.hole)
         {
             if (ballController.isSleeping)
             {
@@ -56,6 +70,7 @@ public class GolfController : MonoBehaviour
                 }
                 else
                 {
+                    prevPosition = ball.transform.position;
                     ballController.Hit(forward, up);
                     uiController.ShotInfo(++shotNumber);
                     isShoot = true;
@@ -64,6 +79,10 @@ public class GolfController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown("r"))
             {
+                if (clubNumber < 4)
+                    clubNumber++;
+                else
+                    clubNumber = 1;
                 SetClubInfo();
             }
         }
@@ -71,40 +90,81 @@ public class GolfController : MonoBehaviour
         {
             TurnOffUI();
         }
+        if (ballController.hole)
+        {
+            holeInMessage.SetActive(true);
+            scorePanelController.UpdateScore(shotNumber, holeNumber);
+            scorePanelController.Activate();
+            if (Input.GetKeyDown("return"))
+            {
+                if (holeNumber < 3)
+                {
+                    isPowerBarStarted = false;
+                    isShoot = false;
+                    holeNumber++;
+                    shotNumber = 0;
+                    SetHoleInfo();
+                    holeInMessage.SetActive(false);
+                    scorePanelController.DeActivate();
+                }
+                else
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
+        if (ballController.inWater)
+        {
+            ball.transform.position = prevPosition;
+            ballController.inWater = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+            scorePanelController.Activate();
+        if (Input.GetKeyUp(KeyCode.Tab))
+            scorePanelController.DeActivate();
+    }
+
+    private void SetHoleInfo()
+    {
+        uiController.HoleInfo(holeNumber, parNumber[holeNumber - 1]);
+        Transform t = teeboxes[holeNumber - 1].transform;
+        Vector3 transport = new Vector3(t.position.x, t.position.y, t.position.z);
+        ball.transform.position = transport;
+        golfHole[holeNumber - 1].SetActive(true);
+        ballController.hole = false;
     }
 
     private void SetClubInfo()
     {
-        if (clubNumber < 4)
-            clubNumber++;
-        else
-            clubNumber = 1;
         uiController.ClubInfo(clubNumber);
         switch (clubNumber)
         {
             case 1:
-                forward = 2.0f;
+                forward = 3.0f;
                 up = 0.8f;
-                arrow.transform.Rotate(Vector3.left * 30.0f);
+                arrow.transform.Rotate(Vector3.right * 10.0f);
                 arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.7f);
                 break;
             case 2:
-                forward = 1.5f;
+                forward = 2.5f;
                 up = 1.5f;
                 arrow.transform.Rotate(Vector3.right * 10.0f);
                 arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.5f);
                 break;
             case 3:
-                forward = 0.8f;
+                forward = 1.8f;
                 up = 2.2f;
                 arrow.transform.Rotate(Vector3.right * 20.0f);
                 arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
                 break;
             case 4:
-                forward = 1.0f;
+                forward = 2.0f;
                 up = 0.0f;
+                arrow.transform.Rotate(Vector3.left * 40.0f);
+                arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.4f);
                 break;
         }
+        forward *= terrainForward;
+        up *= terrainUp;
     }
 
     private void TurnOffUI()

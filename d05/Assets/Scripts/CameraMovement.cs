@@ -19,12 +19,14 @@ public class CameraMovement : MonoBehaviour
     public BallController ballScript;
     public GolfController golfController;
     private Vector3 point;
+    private Vector3 prevBallPos;
 
     private void Start()
     {
         offset = transform.position - ball.transform.position;
         locked = true;
         PointCalculation();
+        prevBallPos = ball.transform.position;
     }
 
     private void PointCalculation()
@@ -68,6 +70,11 @@ public class CameraMovement : MonoBehaviour
             {
                 if (Input.GetKey("a") || Input.GetKey("d"))
                     transform.RotateAround(point, new Vector3(0f, Input.GetAxis("Horizontal"), 0f), 5 * Time.deltaTime * speedH);
+            }
+            if (prevBallPos != ball.transform.position)
+            {
+                PointCalculation();
+                prevBallPos = ball.transform.position;
             }
         }
         else
