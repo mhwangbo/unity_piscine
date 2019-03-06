@@ -42,8 +42,8 @@ public class BallController : MonoBehaviour
         while (!isSleeping)
         {
             time += Time.deltaTime;
-            if (golfController.terrainIndex == 1 && time > 0.05f)
-                rb.drag = 50.0f;
+            if (golfController.terrainIndex == 1 && time > 0.10f)
+                rb.drag = 10.0f;
             if (time > 0.20f)
                 rb.drag = 50.0f;
             yield return new WaitForSeconds(1.0f);

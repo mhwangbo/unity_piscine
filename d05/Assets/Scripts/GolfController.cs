@@ -19,6 +19,7 @@ public class GolfController : MonoBehaviour
     private int shotNumber;
     private int holeNumber;
     private int clubNumber;
+    private bool clubChanged;
 
     [HideInInspector] public bool isShoot;
     [HideInInspector] public float terrainForward;
@@ -77,13 +78,17 @@ public class GolfController : MonoBehaviour
                 }
 
             }
-            if (Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown("r"))
+            if (!clubChanged && Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown("r"))
             {
-                if (clubNumber < 4)
-                    clubNumber++;
-                else
-                    clubNumber = 1;
-                SetClubInfo();
+                if (terrainIndex == 0)
+                {
+                    if (clubNumber < 3)
+                        clubNumber++;
+                    else
+                        clubNumber = 1;
+                    SetClubInfo();
+                }
+
             }
         }
         else if (!cameraScript.locked)
@@ -116,11 +121,51 @@ public class GolfController : MonoBehaviour
             ball.transform.position = prevPosition;
             ballController.inWater = false;
         }
+        if (terrainIndex == 1 && !clubChanged)
+        {
+            SetClubToWedge();
+            clubChanged = true;
+        }
+        if (terrainIndex == 2 && !clubChanged)
+        {
+            SetClubToWedge();
+            clubNumber = 4;
+            uiController.ClubInfo(clubNumber);
+            forward = 2.0f;
+            up = 0.0f;
+            arrow.transform.Rotate(Vector3.left * 40.0f);
+            arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.4f);
+            clubChanged = true;
+            forward *= terrainForward;
+            up *= terrainUp;
+        }
+        if (terrainIndex == 0)
+        {
+            clubChanged = false;
+            if (clubNumber == 4)
+            {
+                clubNumber = 1;
+                uiController.ClubInfo(clubNumber);
+                forward = 3.0f;
+                up = 0.8f;
+                arrow.transform.Rotate(Vector3.right * 10.0f);
+                arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.7f);
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.Tab))
             scorePanelController.Activate();
         if (Input.GetKeyUp(KeyCode.Tab))
             scorePanelController.DeActivate();
+    }
+
+    private void SetClubToWedge()
+    {
+        while (clubNumber != 3)
+        {
+            clubNumber++;
+            SetClubInfo();
+        }
     }
 
     private void SetHoleInfo()
@@ -141,7 +186,7 @@ public class GolfController : MonoBehaviour
             case 1:
                 forward = 3.0f;
                 up = 0.8f;
-                arrow.transform.Rotate(Vector3.right * 10.0f);
+                arrow.transform.Rotate(Vector3.left * 30.0f);
                 arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.7f);
                 break;
             case 2:
@@ -155,12 +200,6 @@ public class GolfController : MonoBehaviour
                 up = 2.2f;
                 arrow.transform.Rotate(Vector3.right * 20.0f);
                 arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-                break;
-            case 4:
-                forward = 2.0f;
-                up = 0.0f;
-                arrow.transform.Rotate(Vector3.left * 40.0f);
-                arrow.transform.localScale = new Vector3(0.3f, 0.3f, 0.4f);
                 break;
         }
         forward *= terrainForward;
