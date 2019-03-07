@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\LightController.cs" />
+    <Compile Include="Assets\Scripts\MouseMovement.cs" />
     <None Include="Assets\Stealth Assets\Shaders\ReflectiveDiffuseSpecTransp.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/Hwangbo/Desktop/unityPiscine/d06/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

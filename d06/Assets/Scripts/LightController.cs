@@ -17,7 +17,7 @@ public class LightController : MonoBehaviour
         else
         {
             rotation = rotationLeft;
-            rotationLeft = 0;
+            rotationLeft = 360;
         }
         transform.Rotate(0, rotation, 0);
     }
