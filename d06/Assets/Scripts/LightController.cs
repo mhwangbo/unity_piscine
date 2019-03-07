@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LightController : MonoBehaviour
 {
+    public MainController mainController;
+
     float rotationLeft = 360;
     float rotationSpeed = 30;
 
@@ -26,8 +28,12 @@ public class LightController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "MainCamera")
-        {
+            mainController.detected = true;
+    }
 
-        }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.tag == "MainCamera")
+            mainController.detected = false;
     }
 }
