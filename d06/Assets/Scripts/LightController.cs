@@ -6,6 +6,7 @@ public class LightController : MonoBehaviour
 {
     float rotationLeft = 360;
     float rotationSpeed = 30;
+
     void Update()
     {
 
@@ -20,5 +21,13 @@ public class LightController : MonoBehaviour
             rotationLeft = 360;
         }
         transform.Rotate(0, rotation, 0);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "MainCamera")
+        {
+
+        }
     }
 }
