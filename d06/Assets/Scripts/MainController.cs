@@ -13,8 +13,14 @@ public class MainController : MonoBehaviour
     [HideInInspector] public bool cctvDetected;
     private bool warning;
 
+    [HideInInspector] public bool cardKey;
+
     // GameOver
     [HideInInspector] public bool gameOver;
+
+    // Background Music
+    public AudioSource normalAudio;
+    public AudioSource panicAudio;
 
     private void Update()
     {
@@ -48,6 +54,16 @@ public class MainController : MonoBehaviour
     {
         uiController.StartBlinking(trueOrFalse);
         warning = trueOrFalse;
+        if (warning)
+        {
+            normalAudio.Stop();
+            panicAudio.Play();
+        }
+        else
+        {
+            panicAudio.Stop();
+            normalAudio.Play();
+        }
     }
 
     private void GameOver()

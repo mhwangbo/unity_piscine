@@ -11,9 +11,9 @@ public class Balloon : MonoBehaviour
     Vector3 temp;
     if (gameObject.transform.localScale.x < 1.5 && gameObject.transform.localScale.x > 0)
     {
-      if (Input.GetKey(KeyCode.Space) && breath > 0)
+      if (Input.GetKeyDown(KeyCode.Space) && breath > 0)
       {
-        temp = new Vector3 (gameObject.transform.localScale.x + 0.03f, gameObject.transform.localScale.y + 0.03f, gameObject.transform.localScale.z);
+        temp = new Vector3 (gameObject.transform.localScale.x + 0.13f, gameObject.transform.localScale.y + 0.13f, gameObject.transform.localScale.z);
         breath -= 2;
       }
       else

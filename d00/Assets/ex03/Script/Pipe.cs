@@ -17,7 +17,7 @@ public class Pipe : MonoBehaviour
               transform.position = new Vector3(8.5f, transform.position.y, transform.position.z);
               scored = false;
             }
-            if (transform.position.x > -5.0f && transform.position.x < -4.0f)
+            if (transform.position.x > -0.5f && transform.position.x < 0.5f)
             {
               if (bird.transform.position.y > 3.23f || bird.transform.position.y < 0.36f)
               {

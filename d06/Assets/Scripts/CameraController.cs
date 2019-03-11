@@ -13,12 +13,22 @@ public class CameraController : MonoBehaviour
     private float yaw = 0.0f;
     private float pitch = 0.0f;
 
+    // Walking Sound
+    public AudioSource footStep;
+    private bool footStepPlay;
+    private Coroutine coroutine;
+    private Rigidbody rb;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     private void OnParticleCollision(GameObject other)
     {
         if (mainController.cctvDetected)
         {
             mainController.detectionLevel -= 0.02f;
-            print(mainController.detectionLevel);
         }
     }
 
@@ -36,12 +46,17 @@ public class CameraController : MonoBehaviour
             // Keyboard
             if (Input.GetKey("w"))
                 moveCamera(Vector3.forward);
-            if (Input.GetKey("s"))
+            else if (Input.GetKey("s"))
                 moveCamera(Vector3.back);
-            if (Input.GetKey("a"))
+            else if (Input.GetKey("a"))
                 moveCamera(Vector3.left);
-            if (Input.GetKey("d"))
+            else if (Input.GetKey("d"))
                 moveCamera(Vector3.right);
+            else if (footStepPlay)
+            {
+                StopCoroutine(coroutine);
+                footStepPlay = false;
+            }
 
             // Run
             if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -57,9 +72,32 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    private IEnumerator PlayFootStep()
+    {
+        while (true)
+        {
+            if (!mainController.run)
+            {
+                footStep.Play();
+                yield return new WaitForSeconds(.6f);
+            }
+            else
+            {
+                footStep.Play();
+                yield return new WaitForSeconds(.3f);
+            }
+        }
+
+    }
+
     void moveCamera(Vector3 direction)
     {
         transform.Translate(direction * Time.deltaTime * speedM);
         transform.position = new Vector3(transform.position.x, 1.312f, transform.position.z);
+        if (!footStepPlay)
+        {
+            footStepPlay = true;
+            coroutine = StartCoroutine(PlayFootStep());
+        }
     }
 }

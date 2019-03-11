@@ -9,6 +9,7 @@ public class UIController : MonoBehaviour
     public Text warningText;
     public GameObject warningPanel;
     public GameObject gameOver;
+    public GameObject crossHair;
     private Coroutine coroutine; 
 
     private void Start()

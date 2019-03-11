@@ -9,7 +9,7 @@ public class Bird : MonoBehaviour
     public float dropRate;
     public int score;
     public float increment;
-    public bool isDead = false;
+    [HideInInspector] public bool isDead = false;
 
     void Update()
     {

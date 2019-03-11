@@ -33,9 +33,9 @@ public class Club : MonoBehaviour
         if (ball.gameEnd && !ending)
         {
           if (score < 0)
-            Debug.Log("Score: " + score + " You WON!");
+            Debug.Log("Score: " + score + "; You WON!");
           else
-            Debug.Log("Score: " + score + " You LOSE");
+            Debug.Log("Score: " + score + "; You LOSE");
           ending = true;
         }
     }

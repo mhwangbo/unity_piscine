@@ -10,7 +10,7 @@ public class PongBall : MonoBehaviour
     private bool gameStart = false;
     public Player playerOne;
     public Player playerTwo;
-    public bool dead;
+    [HideInInspector] public bool dead;
 
     void Begin()
     {
@@ -36,7 +36,7 @@ public class PongBall : MonoBehaviour
         if (hit)
         {
             angle.x *= -1;
-            angle.y *= -1;
+            angle.y = Random.Range(-5, 5);
             transform.Translate(angle * Time.deltaTime * 2);
             hit = false;
         }
