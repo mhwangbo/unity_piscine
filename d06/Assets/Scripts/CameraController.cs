@@ -13,6 +13,11 @@ public class CameraController : MonoBehaviour
     private float yaw = 0.0f;
     private float pitch = 0.0f;
 
+    private void OnParticleCollision(GameObject other)
+    {
+        mainController.inSmoke = true;
+    }
+
     void Update()
     {
         if (!mainController.gameOver)

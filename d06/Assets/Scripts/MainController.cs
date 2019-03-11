@@ -23,6 +23,7 @@ public class MainController : MonoBehaviour
             CalculateDetectionLevel();
         if (detectionLevel >= 1.0f)
             GameOver();
+        print(inSmoke);
     }
 
     private void CalculateDetectionLevel()
