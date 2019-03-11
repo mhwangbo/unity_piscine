@@ -15,7 +15,11 @@ public class CameraController : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        mainController.inSmoke = true;
+        if (mainController.cctvDetected)
+        {
+            mainController.detectionLevel -= 0.02f;
+            print(mainController.detectionLevel);
+        }
     }
 
     void Update()

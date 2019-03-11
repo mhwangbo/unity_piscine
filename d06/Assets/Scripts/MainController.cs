@@ -6,12 +6,11 @@ using UnityEngine.SceneManagement;
 public class MainController : MonoBehaviour
 {
     // Detection Level Control
-    private float detectionLevel;
+    [HideInInspector] public float detectionLevel;
     public UIController uiController;
     [HideInInspector] public bool detected;
     [HideInInspector] public bool run;
     [HideInInspector] public bool cctvDetected;
-    [HideInInspector] public bool inSmoke;
     private bool warning;
 
     // GameOver
@@ -23,7 +22,6 @@ public class MainController : MonoBehaviour
             CalculateDetectionLevel();
         if (detectionLevel >= 1.0f)
             GameOver();
-        print(inSmoke);
     }
 
     private void CalculateDetectionLevel()
@@ -31,7 +29,7 @@ public class MainController : MonoBehaviour
         float detectionCalc = -0.001f;
 
         if (cctvDetected)
-            detectionCalc += (!inSmoke ? 0.01f : 0.001f);
+            detectionCalc += 0.01f;
         if (detected)
             detectionCalc += 0.005f;
         if (run)
