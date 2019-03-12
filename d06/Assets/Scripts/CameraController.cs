@@ -102,6 +102,7 @@ public class CameraController : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             string hitObject = hit.transform.name;
+            float distance = Vector3.Distance(hit.transform.position, transform.position);
             switch (hitObject)
             {
                 case "Fan":
@@ -120,6 +121,8 @@ public class CameraController : MonoBehaviour
                     mainController.objectVisible = -1;
                     break;
             }
+            if (distance > 1.7f)
+                mainController.objectVisible = -1;
         }
         else
         {
