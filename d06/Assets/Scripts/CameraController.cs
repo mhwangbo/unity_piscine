@@ -29,7 +29,8 @@ public class CameraController : MonoBehaviour
     {
         if (mainController.cctvDetected)
         {
-            mainController.detectionLevel -= 0.02f;
+            print("Collided");
+            mainController.detectionLevel -= 0.05f;
         }
     }
 

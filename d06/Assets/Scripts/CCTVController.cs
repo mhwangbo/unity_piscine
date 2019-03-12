@@ -6,6 +6,11 @@ public class CCTVController : MonoBehaviour
 {
     public MainController mainController;
 
+    private void Start()
+    {
+        mainController = GameObject.FindGameObjectWithTag("mainController").GetComponent<MainController>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "MainCamera")

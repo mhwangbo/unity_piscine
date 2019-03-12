@@ -21,6 +21,7 @@ public class MainController : MonoBehaviour
     // Background Music
     public AudioSource normalAudio;
     public AudioSource panicAudio;
+    public AudioSource warningAudio;
 
     private void Update()
     {
@@ -58,11 +59,13 @@ public class MainController : MonoBehaviour
         {
             normalAudio.Stop();
             panicAudio.Play();
+            warningAudio.Play();
         }
         else
         {
             panicAudio.Stop();
             normalAudio.Play();
+            warningAudio.Stop();
         }
     }
 

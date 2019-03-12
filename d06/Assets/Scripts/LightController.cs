@@ -9,6 +9,11 @@ public class LightController : MonoBehaviour
     float rotationLeft = 360;
     float rotationSpeed = 30;
 
+    private void Start()
+    {
+        mainController = GameObject.FindGameObjectWithTag("mainController").GetComponent<MainController>();
+    }
+
     void Update()
     {
 

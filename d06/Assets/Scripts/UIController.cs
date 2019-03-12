@@ -10,6 +10,7 @@ public class UIController : MonoBehaviour
     public Text warningText;
     public GameObject warningPanel;
     public GameObject gameOver;
+    public Text instruction;
     private Coroutine coroutine;
     private bool textStarted;
 
@@ -17,6 +18,14 @@ public class UIController : MonoBehaviour
     {
         detection.fillAmount = 0.0f;
         warningText.text = "";
+        StartCoroutine(DisplayText());
+    }
+
+    private IEnumerator DisplayText()
+    {
+        instruction.text = "obtain enemy's attack plan";
+        yield return new WaitForSeconds(5.0f);
+        instruction.text = "";
     }
 
     public void GameOverMessage()
