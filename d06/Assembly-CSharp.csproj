@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\CCTVController.cs" />
     <Compile Include="Assets\Scripts\LightController.cs" />
     <Compile Include="Assets\Scripts\MainController.cs" />
+    <Compile Include="Assets\Scripts\ObjectController.cs" />
     <Compile Include="Assets\Scripts\UIController.cs" />
     <None Include="Assets\Stealth Assets\Shaders\ReflectiveDiffuseSpecTransp.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">

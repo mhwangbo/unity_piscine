@@ -14,6 +14,7 @@ public class MainController : MonoBehaviour
     private bool warning;
 
     [HideInInspector] public bool cardKey;
+    [HideInInspector] public bool document;
 
     // GameOver
     [HideInInspector] public bool gameOver;
@@ -25,14 +26,21 @@ public class MainController : MonoBehaviour
 
     // Interaction
     [HideInInspector] public int objectVisible = -1;
+    public ObjectController objectController;
 
     private void Update()
     {
         if (!gameOver)
             CalculateDetectionLevel();
         if (detectionLevel >= 1.0f)
-            GameOver();
+            GameStatus("Mission Has Failed\nReinitializing........");
+        if (document)
+            GameStatus("Mission Completed\nReinitializing........");
         SetInstruction();
+        if (objectVisible > 0 && Input.GetKeyDown("e"))
+        {
+            objectController.TakeAction(objectVisible);
+        }
     }
 
     private void SetInstruction()
@@ -100,10 +108,10 @@ public class MainController : MonoBehaviour
         }
     }
 
-    private void GameOver()
+    private void GameStatus(string str)
     {
         gameOver = true;
-        uiController.GameOverMessage();
+        uiController.GameMessage(str);
         uiController.StartBlinking(false);
         if (warning)
             BlinkText(false);

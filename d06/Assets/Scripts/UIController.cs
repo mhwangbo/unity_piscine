@@ -29,11 +29,11 @@ public class UIController : MonoBehaviour
         startText.SetActive(false);
     }
 
-    public void GameOverMessage()
+    public void GameMessage(string str)
     {
         gameOver.SetActive(true);
         if (!textStarted)
-            StartCoroutine(GameOverAutoText());
+            StartCoroutine(AutoText(str));
     }
 
     public void SetDetectionBar(float detectionLevel)
@@ -58,10 +58,10 @@ public class UIController : MonoBehaviour
         instruction.text = str;
     }
 
-    private IEnumerator GameOverAutoText()
+    private IEnumerator AutoText(string str)
     {
         textStarted = true;
-        string gameOverText = "Mission Has Failed\nReinitializing........";
+        string gameOverText = str;
         Text gameOverMessage = gameOver.GetComponent<Text>();
         for (int printIndex = 0; printIndex < gameOverText.Length; printIndex++)
         {
