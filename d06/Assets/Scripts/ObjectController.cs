@@ -23,6 +23,7 @@ public class ObjectController : MonoBehaviour
                 objects[1].GetComponent<AudioSource>().Play();
                 Destroy(objects[1]);
                 lights.SetActive(true);
+                lights.GetComponent<AudioSource>().Play();
                 break;
             case 3:
                 if (mainController.cardKey)

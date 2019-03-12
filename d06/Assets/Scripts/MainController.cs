@@ -18,6 +18,8 @@ public class MainController : MonoBehaviour
 
     // GameOver
     [HideInInspector] public bool gameOver;
+    public AudioSource resetSound;
+    private bool resetPlay;
 
     // Background Music
     public AudioSource normalAudio;
@@ -111,8 +113,16 @@ public class MainController : MonoBehaviour
         uiController.SetInstruction("");
         gameOver = true;
         uiController.GameMessage(str);
-        uiController.StartBlinking(false);
-        if (warning)
-            BlinkText(false);
+        if (!resetPlay)
+        {
+            resetSound.Play();
+            resetPlay = true;
+        }
+        if (!document)
+        {
+            uiController.StartBlinking(false);
+            if (warning)
+                BlinkText(false);
+        }
     }
 }
