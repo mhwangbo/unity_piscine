@@ -67,6 +67,18 @@ public class MainController : MonoBehaviour
                 instruction = "";
                 break;
         }
+        StartCoroutine(FadeInandOut(instruction));
+    }
+
+    private IEnumerator FadeInandOut(string instruction)
+    {
+        if (objectVisible > 0)
+            uiController.instruction.CrossFadeAlpha(1, 2.0f, false);
+        else
+        {
+            uiController.instruction.CrossFadeAlpha(0, 2.0f, false);
+            yield return new WaitForSeconds(1.0f);
+        }
         uiController.SetInstruction(instruction);
     }
 

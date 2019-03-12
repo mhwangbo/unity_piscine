@@ -54,7 +54,7 @@ public class CameraController : MonoBehaviour
     private void MouseMovement()
     {
         float tmp = pitch - (speedV * Input.GetAxis("Mouse Y"));
-        if (tmp >= -25.0f && tmp <= 25.0f)
+        if (tmp >= -30.0f && tmp <= 30.0f)
             pitch = tmp;
         yaw += speedH * Input.GetAxis("Mouse X");
         transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
