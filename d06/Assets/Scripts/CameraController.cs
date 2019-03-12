@@ -38,7 +38,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (!mainController.gameOver)
+        if (!mainController.gameOver) 
         {
             // Mouse
             MouseMovement();
