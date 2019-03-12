@@ -38,9 +38,7 @@ public class MainController : MonoBehaviour
             GameStatus("Mission Completed\nReinitializing........");
         SetInstruction();
         if (objectVisible > 0 && Input.GetKeyDown("e"))
-        {
             objectController.TakeAction(objectVisible);
-        }
     }
 
     private void SetInstruction()
@@ -110,6 +108,7 @@ public class MainController : MonoBehaviour
 
     private void GameStatus(string str)
     {
+        uiController.SetInstruction("");
         gameOver = true;
         uiController.GameMessage(str);
         uiController.StartBlinking(false);
