@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -9,8 +10,8 @@ public class UIController : MonoBehaviour
     public Text warningText;
     public GameObject warningPanel;
     public GameObject gameOver;
-    public GameObject crossHair;
-    private Coroutine coroutine; 
+    private Coroutine coroutine;
+    private bool textStarted;
 
     private void Start()
     {
@@ -21,6 +22,8 @@ public class UIController : MonoBehaviour
     public void GameOverMessage()
     {
         gameOver.SetActive(true);
+        if (!textStarted)
+            StartCoroutine(GameOverAutoText());
     }
 
     public void SetDetectionBar(float detectionLevel)
@@ -38,6 +41,19 @@ public class UIController : MonoBehaviour
             warningText.text = "";
             warningPanel.SetActive(false);
         }
+    }
+
+    private IEnumerator GameOverAutoText()
+    {
+        textStarted = true;
+        string gameOverText = "Mission Has Failed\nReinitializing........";
+        Text gameOverMessage = gameOver.GetComponent<Text>();
+        for (int printIndex = 0; printIndex < gameOverText.Length; printIndex++)
+        {
+            gameOverMessage.text = gameOverText.Substring(0, printIndex);
+            yield return new WaitForSeconds(0.2f);
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private IEnumerator BlinkText()

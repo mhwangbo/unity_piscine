@@ -18,6 +18,7 @@ public class CameraController : MonoBehaviour
     private bool footStepPlay;
     private Coroutine coroutine;
     private Rigidbody rb;
+    private bool isMoving;
 
     private void Start()
     {
@@ -56,13 +57,19 @@ public class CameraController : MonoBehaviour
             {
                 StopCoroutine(coroutine);
                 footStepPlay = false;
+                isMoving = false;
+                speedM = 2.5f;
+                mainController.run = false;
             }
 
             // Run
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                speedM = 4.5f;
-                mainController.run = true;
+                if (isMoving)
+                {
+                    speedM = 4.5f;
+                    mainController.run = true;
+                }
             }
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
@@ -92,6 +99,7 @@ public class CameraController : MonoBehaviour
 
     void moveCamera(Vector3 direction)
     {
+        isMoving = true;
         transform.Translate(direction * Time.deltaTime * speedM);
         transform.position = new Vector3(transform.position.x, 1.312f, transform.position.z);
         if (!footStepPlay)

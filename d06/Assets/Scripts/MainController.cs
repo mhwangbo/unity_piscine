@@ -73,7 +73,5 @@ public class MainController : MonoBehaviour
         uiController.StartBlinking(false);
         if (warning)
             BlinkText(false);
-        if (Input.GetKeyDown("return"))
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
