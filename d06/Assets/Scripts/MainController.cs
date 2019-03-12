@@ -23,12 +23,43 @@ public class MainController : MonoBehaviour
     public AudioSource panicAudio;
     public AudioSource warningAudio;
 
+    // Interaction
+    [HideInInspector] public int objectVisible = -1;
+
     private void Update()
     {
         if (!gameOver)
             CalculateDetectionLevel();
         if (detectionLevel >= 1.0f)
             GameOver();
+        SetInstruction();
+    }
+
+    private void SetInstruction()
+    {
+        string instruction;
+        switch (objectVisible)
+        {
+            case 1:
+                instruction = "Press E to activate";
+                break;
+            case 2:
+                instruction = "Press E to pickup";
+                break;
+            case 3:
+                if (cardKey)
+                    instruction = "Press E to use a cardkey";
+                else
+                    instruction = "Need to find a cardkey";
+                break;
+            case 4:
+                instruction = "Press E to pickup";
+                break;
+            default:
+                instruction = "";
+                break;
+        }
+        uiController.SetInstruction(instruction);
     }
 
     private void CalculateDetectionLevel()

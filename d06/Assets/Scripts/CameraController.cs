@@ -20,16 +20,18 @@ public class CameraController : MonoBehaviour
     private Rigidbody rb;
     private bool isMoving;
 
+    Camera cam;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        cam = GetComponent<Camera>();
     }
 
     private void OnParticleCollision(GameObject other)
     {
         if (mainController.cctvDetected)
         {
-            print("Collided");
             mainController.detectionLevel -= 0.05f;
         }
     }
@@ -39,44 +41,89 @@ public class CameraController : MonoBehaviour
         if (!mainController.gameOver)
         {
             // Mouse
-            float tmp = pitch - (speedV * Input.GetAxis("Mouse Y"));
-            if (tmp >= -20.0f && tmp <= 20.0f)
-                pitch = tmp;
-            yaw += speedH * Input.GetAxis("Mouse X");
-            transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+            MouseMovement();
 
             // Keyboard
-            if (Input.GetKey("w"))
-                moveCamera(Vector3.forward);
-            else if (Input.GetKey("s"))
-                moveCamera(Vector3.back);
-            else if (Input.GetKey("a"))
-                moveCamera(Vector3.left);
-            else if (Input.GetKey("d"))
-                moveCamera(Vector3.right);
-            else if (footStepPlay)
-            {
-                StopCoroutine(coroutine);
-                footStepPlay = false;
-                isMoving = false;
-                speedM = 2.5f;
-                mainController.run = false;
-            }
+            KeyboardMovement();
 
-            // Run
-            if (Input.GetKey(KeyCode.LeftShift))
+            // Raycasting
+            ObjectDetermination();
+        }
+    }
+
+    private void MouseMovement()
+    {
+        float tmp = pitch - (speedV * Input.GetAxis("Mouse Y"));
+        if (tmp >= -25.0f && tmp <= 25.0f)
+            pitch = tmp;
+        yaw += speedH * Input.GetAxis("Mouse X");
+        transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+    }
+
+    private void KeyboardMovement()
+    {
+        if (Input.GetKey("w"))
+            moveCamera(Vector3.forward);
+        else if (Input.GetKey("s"))
+            moveCamera(Vector3.back);
+        else if (Input.GetKey("a"))
+            moveCamera(Vector3.left);
+        else if (Input.GetKey("d"))
+            moveCamera(Vector3.right);
+        else if (footStepPlay)
+        {
+            StopCoroutine(coroutine);
+            footStepPlay = false;
+            isMoving = false;
+            speedM = 2.5f;
+            mainController.run = false;
+        }
+
+        // Run
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (isMoving)
             {
-                if (isMoving)
-                {
-                    speedM = 4.5f;
-                    mainController.run = true;
-                }
+                speedM = 4.5f;
+                mainController.run = true;
             }
-            if (Input.GetKeyUp(KeyCode.LeftShift))
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            speedM = 2.5f;
+            mainController.run = false;
+        }
+    }
+
+    private void ObjectDetermination()
+    {
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            string hitObject = hit.transform.name;
+            switch (hitObject)
             {
-                speedM = 2.5f;
-                mainController.run = false;
+                case "Fan":
+                    mainController.objectVisible = 1;
+                    break;
+                case "KeyCard":
+                    mainController.objectVisible = 2;
+                    break;
+                case "KeyCardReader":
+                    mainController.objectVisible = 3;
+                    break;
+                case "Target":
+                    mainController.objectVisible = 4;
+                    break;
+                default:
+                    mainController.objectVisible = -1;
+                    break;
             }
+        }
+        else
+        {
+            mainController.objectVisible = -1;
         }
     }
 
