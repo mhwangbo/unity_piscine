@@ -367,6 +367,7 @@ GameObject:
   - component: {fileID: 1521660970}
   - component: {fileID: 1521660971}
   - component: {fileID: 1521660972}
+  - component: {fileID: 1521660973}
   m_Layer: 0
   m_Name: TankPlayer
   m_TagString: Untagged
@@ -386,6 +387,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1376054473}
+  - {fileID: 1595376829}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -401,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a96963a3b59465fa58d672d2124073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedM: 20
+  speedM: 5
   speedR: 60
   speedH: 20
   cannon: {fileID: 1595376830}
@@ -419,14 +421,27 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 16
+  m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &1521660973
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521660969}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.7824287, y: 2.5246239, z: 2.254242}
+  m_Center: {x: 0.018117905, y: 0.76231194, z: -0.09861755}
 --- !u!1001 &1595376828
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1376054473}
+    m_TransformParent: {fileID: 1521660970}
     m_Modifications:
     - target: {fileID: 100000, guid: fbfb87d825b0d49f196b9669d6313fa6, type: 3}
       propertyPath: m_Name
@@ -446,15 +461,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fbfb87d825b0d49f196b9669d6313fa6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fbfb87d825b0d49f196b9669d6313fa6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fbfb87d825b0d49f196b9669d6313fa6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fbfb87d825b0d49f196b9669d6313fa6, type: 3}
       propertyPath: m_LocalRotation.w

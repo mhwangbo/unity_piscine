@@ -32,6 +32,10 @@ public class TankController : MonoBehaviour
             transform.Rotate(0, Input.GetAxis("Horizontal") * speedR * Time.deltaTime, 0);
         if (Input.GetKey("d"))
             transform.Rotate(0, Input.GetAxis("Horizontal") * speedR * Time.deltaTime, 0);
+        if (Input.GetKey(KeyCode.LeftShift))
+            speedM = 10.0f;
+        else
+            speedM = 5.0f;
         if (Input.GetKey("r"))
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
