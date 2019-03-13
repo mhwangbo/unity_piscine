@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/TankWar.unity
+    guid: 047f733515c5743d2b831c61e1cf1374
   m_configObjects: {}
