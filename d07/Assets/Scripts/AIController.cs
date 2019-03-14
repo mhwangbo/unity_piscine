@@ -61,7 +61,7 @@ public class AIController : MonoBehaviour
     {
         killed = true;
         GameObject tmp = (GameObject)Instantiate(explosionParticles[0], transform.position, Quaternion.identity);
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.5f);
         Destroy(tmp);
         Destroy(this.gameObject);
     }
@@ -82,7 +82,7 @@ public class AIController : MonoBehaviour
             Vector3 fwd = cannon.transform.TransformDirection(Vector3.forward);
             fwd.y += randY;
             RaycastHit hit;
-            if (Physics.Raycast(cannon.transform.position, fwd, out hit, 50.0f))
+            if (Physics.Raycast(cannon.transform.position, fwd, out hit, 30.0f))
             {
                 int type = Random.Range(0, 2);
                 StartCoroutine(Explosion(explosionParticles[type], hit.point));
@@ -116,7 +116,7 @@ public class AIController : MonoBehaviour
     private IEnumerator Explosion(GameObject particle, Vector3 pos)
     {
         GameObject tmp = (GameObject)Instantiate(particle, pos, Quaternion.identity);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.0f);
         Destroy(tmp);
     }
 
@@ -142,7 +142,7 @@ public class AIController : MonoBehaviour
     {
         Vector3 fwd = cannon.transform.TransformDirection(Vector3.forward);
         RaycastHit hit;
-        if (Physics.Raycast(cannon.transform.position, fwd, out hit, 50.0f))
+        if (Physics.Raycast(cannon.transform.position, fwd, out hit, 30.0f))
         {
             if (hit.transform.gameObject != transform.gameObject && (hit.transform.tag == "Player" || hit.transform.tag == "Enemy"))
             {

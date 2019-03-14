@@ -31,7 +31,7 @@ public class TankController : MonoBehaviour
     public bool killed;
 
     // 3D UI
-    public Text crossHair;
+    public Image crossHair;
     public Text boostText;
     public Text hpText;
     public Text missileText;
