@@ -61,8 +61,8 @@ public class TankController : MonoBehaviour
 
     private void UIText()
     {
-        boostText.text = "" + boostLimit;
-        hpText.text = "" + hp;
+        boostText.text = "" + Mathf.RoundToInt(boostLimit);
+        hpText.text = "" + Mathf.RoundToInt(hp);
         missileText.text = "" + missileLimit;
     }
 
