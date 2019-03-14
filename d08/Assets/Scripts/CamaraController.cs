@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class CamaraController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject player;
+    private Vector3 offset;
+
     void Start()
     {
-        
+        offset = transform.position - player.transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        transform.position = offset + player.transform.position;
     }
 }
