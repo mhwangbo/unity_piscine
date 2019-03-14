@@ -5,9 +5,9 @@
       <File FileName="Assets/Scripts/TankController.cs" Line="33" Column="24" NotebookId="1" />
     </Files>
     <FloatingWindows>
-      <FloatingWindow WindowId="1" X="1306" Y="178" Width="640" Height="1093">
+      <FloatingWindow WindowId="1" X="1306" Y="156" Width="640" Height="1093">
         <Files>
-          <File FileName="Assets/Scripts/AIController.cs" Line="18" Column="13" />
+          <File FileName="Assets/Scripts/AIController.cs" Line="18" Column="6" />
         </Files>
       </FloatingWindow>
     </FloatingWindows>
