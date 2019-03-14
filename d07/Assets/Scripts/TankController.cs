@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TankController : MonoBehaviour
 {
@@ -29,6 +30,12 @@ public class TankController : MonoBehaviour
     private int missileLimit = 50;
     public bool killed;
 
+    // 3D UI
+    public Text crossHair;
+    public Text boostText;
+    public Text hpText;
+    public Text missileText;
+
     private void Start()
     {
         cannonOriginal = cannon.transform.eulerAngles;
@@ -42,6 +49,7 @@ public class TankController : MonoBehaviour
     {
         TankMovement();
         Shoot();
+        UIText();
 
         // For easy testing
         if (Input.GetKey("r"))
@@ -49,6 +57,13 @@ public class TankController : MonoBehaviour
 
         if (!killed && hp <= 0)
             StartCoroutine(DestroySelf());
+    }
+
+    private void UIText()
+    {
+        boostText.text = "" + boostLimit;
+        hpText.text = "" + hp;
+        missileText.text = "" + missileLimit;
     }
 
     private IEnumerator DestroySelf()
@@ -125,6 +140,7 @@ public class TankController : MonoBehaviour
                 AIController aIController = null;
                 aIController = hit.transform.gameObject.GetComponent<AIController>();
                 aIController.HPDecrease(type == 0 ? 2.0f : 1.0f);
+                crossHair.color = Color.red;
             }
         }
     }
@@ -134,6 +150,7 @@ public class TankController : MonoBehaviour
         GameObject tmp = (GameObject)Instantiate(particle, pos, Quaternion.identity);
         yield return new WaitForSeconds(2f);
         Destroy(tmp);
+        crossHair.color = Color.blue;
     }
 
     public int HPDecrease(float damage)
