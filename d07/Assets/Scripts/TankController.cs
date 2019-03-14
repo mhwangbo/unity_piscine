@@ -22,8 +22,12 @@ public class TankController : MonoBehaviour
     public AudioClip[] audioClips;
     private float[] powers = new float[2];
     private float[] lengths = new float[2];
-    private int missileLimit = 50;
     private Coroutine shootCoroutine;
+
+    // tank status
+    public float hp;
+    private int missileLimit = 50;
+    public bool killed;
 
     private void Start()
     {
@@ -42,6 +46,18 @@ public class TankController : MonoBehaviour
         // For easy testing
         if (Input.GetKey("r"))
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        if (!killed && hp <= 0)
+            StartCoroutine(DestroySelf());
+    }
+
+    private IEnumerator DestroySelf()
+    {
+        killed = true;
+        GameObject tmp = (GameObject)Instantiate(explosionParticles[0], transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(1.0f);
+        Destroy(tmp);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void TankMovement()
@@ -103,7 +119,13 @@ public class TankController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(cannon.transform.position, fwd, out hit, lengths[type]))
         {
-                StartCoroutine(Explosion(explosionParticles[type], hit.point));
+            StartCoroutine(Explosion(explosionParticles[type], hit.point));
+            if (hit.transform.tag == "Enemy")
+            {
+                AIController aIController = null;
+                aIController = hit.transform.gameObject.GetComponent<AIController>();
+                aIController.HPDecrease(type == 0 ? 2.0f : 1.0f);
+            }
         }
     }
 
@@ -112,5 +134,17 @@ public class TankController : MonoBehaviour
         GameObject tmp = (GameObject)Instantiate(particle, pos, Quaternion.identity);
         yield return new WaitForSeconds(2f);
         Destroy(tmp);
+    }
+
+    public int HPDecrease(float damage)
+    {
+        hp -= damage;
+        if (hp > 0)
+            return (0);
+        else
+        {
+            Instantiate(explosionParticles[0], transform.position, Quaternion.identity);
+            return (1);
+        }
     }
 }

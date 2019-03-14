@@ -7,15 +7,27 @@ public class AIController : MonoBehaviour
 {
     public Transform goal;
     public GameObject cannon;
+    public float hp;
+
     private NavMeshAgent agent;
     private GameObject target;
     private bool locked;
     private Vector3 cannonOrig;
+    private bool inRange;
+
+    private bool player;
+    private bool enemy;
+
+    private int enemyState;
+
+    private bool killed;
 
 
     public GameObject[] explosionParticles;
+    public GameObject tankExplosion;
     private bool shooting;
     private Coroutine shootCoroutine;
+    private bool enemyKilled;
 
     private void Start()
     {
@@ -26,6 +38,12 @@ public class AIController : MonoBehaviour
 
     private void Update()
     {
+        if(inRange)
+        {
+            cannon.transform.LookAt(target.transform.position);
+            cannon.transform.eulerAngles = new Vector3(cannonOrig.x, cannon.transform.eulerAngles.y, 0.0f);
+            RayCastFocus();
+        }
         if(locked)
         {
             agent.isStopped = true;
@@ -35,17 +53,33 @@ public class AIController : MonoBehaviour
                 shootCoroutine = StartCoroutine(ShootTarget());
             }
         }
+        if (hp <= 0 && !killed)
+            StartCoroutine(DestroySelf());
+    }
+
+    private IEnumerator DestroySelf()
+    {
+        killed = true;
+        GameObject tmp = (GameObject)Instantiate(explosionParticles[0], transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(1.0f);
+        Destroy(tmp);
+        Destroy(this.gameObject);
     }
 
     private IEnumerator ShootTarget()
     {
+            TankController tankController = null;
+            AIController aIController = null;
+            if (player)
+                tankController = target.GetComponent<TankController>();
+            else if (enemy)
+                aIController = target.GetComponent<AIController>();
+            
         while (true)
         {
             // randomly rotate and shoot
-            float randX = Random.Range(-0.2f, 0.2f);
             float randY = Random.Range(-0.2f, 0.2f);
             Vector3 fwd = cannon.transform.TransformDirection(Vector3.forward);
-            fwd.x += randX;
             fwd.y += randY;
             RaycastHit hit;
             if (Physics.Raycast(cannon.transform.position, fwd, out hit, 50.0f))
@@ -54,13 +88,29 @@ public class AIController : MonoBehaviour
                 StartCoroutine(Explosion(explosionParticles[type], hit.point));
                 if (hit.transform.tag == "Player" || hit.transform.tag == "Enemy")
                 {
-                    // decrease target's health
-                    print("Player health Decreased");
+                    if (player)
+                        enemyState = tankController.HPDecrease(type == 0 ? 5.0f : 0.5f);
+                    else if (enemy)
+                        enemyState = aIController.HPDecrease(type == 0 ? 5.0f : 0.5f);
                 }
                 yield return new WaitForSeconds(type == 0 ? 2.0f : 1.0f);
-                print("RandX: " + randX + ";  RandY: " + randY + ";  Type: " + type);
+            }
+            if (enemyState == 1)
+            {
+                enemyKilled = true;
+                yield return new WaitForSeconds(1.0f);
+                ResetVal();
             }
         }
+    }
+
+    public int HPDecrease(float damage)
+    {
+        hp -= damage;
+        if (hp > 0)
+            return (0);
+        else
+            return (1);
     }
 
     private IEnumerator Explosion(GameObject particle, Vector3 pos)
@@ -74,9 +124,9 @@ public class AIController : MonoBehaviour
     {
         if (other.transform.tag == "Player" || other.transform.tag == "Enemy")
         {
-            cannon.transform.LookAt(other.transform.position);
-            cannon.transform.eulerAngles = new Vector3(cannonOrig.x, cannon.transform.eulerAngles.y, 0.0f);
-            RayCastFocus();
+            inRange = true;
+            if (!target)
+                target = other.gameObject;
         }
     }
 
@@ -84,15 +134,7 @@ public class AIController : MonoBehaviour
     {
         if (other.transform.tag == "Player" || other.transform.tag == "Enemy")
         {
-            target = null;
-            locked = false;
-            agent.isStopped = false;
-            agent.destination = goal.position;
-            if (shooting)
-            {
-                shooting = false;
-                StopCoroutine(shootCoroutine);
-            }
+            ResetVal();
         }
     }
 
@@ -102,14 +144,20 @@ public class AIController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(cannon.transform.position, fwd, out hit, 50.0f))
         {
-            if (hit.transform.tag == "Player" || hit.transform.tag == "Enemy")
+            if (hit.transform.gameObject != transform.gameObject && (hit.transform.tag == "Player" || hit.transform.tag == "Enemy"))
             {
-                target = hit.transform.gameObject;
                 locked = true;
+                if (hit.transform.tag == "Player")
+                    player = true;
+                else
+                    enemy = true;
             }
             else
             {
-                agent.destination = target.transform.position;
+                if (!enemyKilled)
+                    agent.destination = target.transform.position;
+                else
+                    agent.destination = goal.position;
                 agent.isStopped = false;
                 locked = false;
                 if (shooting)
@@ -118,6 +166,23 @@ public class AIController : MonoBehaviour
                     StopCoroutine(shootCoroutine);
                 }
             }
+        }
+    }
+
+    private void ResetVal()
+    {
+        inRange = false;
+        target = null;
+        locked = false;
+        agent.isStopped = false;
+        player = false;
+        enemy = false;
+        enemyKilled = false;
+        agent.destination = goal.position;
+        if (shooting)
+        {
+            shooting = false;
+            StopCoroutine(shootCoroutine);
         }
     }
 

@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 7395459112363726223}
   - component: {fileID: 7395459112363726220}
   - component: {fileID: 7395459112363726226}
+  - component: {fileID: 1953871797}
   m_Layer: 0
   m_Name: TankA
   m_TagString: Enemy
@@ -114,6 +115,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goal: {fileID: 0}
+  cannon: {fileID: 7395459113123952563}
+  hp: 50
+  explosionParticles:
+  - {fileID: 1574654290247650908, guid: 74817ea559c0440158ecdf1ef6b5be08, type: 3}
+  - {fileID: 3717893336832086216, guid: 387b0ec6ecda04e408b5605d3eba1e53, type: 3}
+  tankExplosion: {fileID: 6479876439201793214, guid: fd52a41ac9a1c40cbb7e8b994c04ebdd,
+    type: 3}
+--- !u!135 &1953871797
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7395459112363726219}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 50
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!64 &7395459112378376727
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -138,10 +159,6 @@ PrefabInstance:
     - target: {fileID: 100002, guid: 3c66b355fdb144b8dabb5e4a3995e596, type: 3}
       propertyPath: m_Name
       value: tank
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 3c66b355fdb144b8dabb5e4a3995e596, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 3c66b355fdb144b8dabb5e4a3995e596, type: 3}
       propertyPath: m_LocalPosition.x
@@ -211,10 +228,6 @@ PrefabInstance:
     - target: {fileID: 100000, guid: fbfb87d825b0d49f196b9669d6313fa6, type: 3}
       propertyPath: m_Name
       value: canon
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: fbfb87d825b0d49f196b9669d6313fa6, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fbfb87d825b0d49f196b9669d6313fa6, type: 3}
       propertyPath: m_LocalPosition.x
