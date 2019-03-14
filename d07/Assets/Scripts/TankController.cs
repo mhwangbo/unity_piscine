@@ -30,7 +30,7 @@ public class TankController : MonoBehaviour
         cannonOriginal = cannon.transform.eulerAngles;
         powers[0] = 10.0f;
         powers[1] = 1.0f;
-        lengths[0] = 100.0f;
+        lengths[0] = 60.0f;
         lengths[1] = 30.0f;
     }
 
