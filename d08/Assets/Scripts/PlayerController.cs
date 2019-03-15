@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
             {
+                print(hit.transform.name);
                 agent.isStopped = false;
                 agent.destination = hit.point;
                 animator.SetBool("running", true);
@@ -29,14 +30,22 @@ public class PlayerController : MonoBehaviour
         }
         if (!agent.pathPending)
         {
-            if (agent.remainingDistance <= agent.stoppingDistance)
+            if (agent.remainingDistance <= 6.0f)
             {
-                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0.0f)
-                {
-                    agent.isStopped = true;
-                    animator.SetBool("running", false);
-                }
+                agent.isStopped = true;
+                animator.SetBool("running", false);
             }
         }
+        //if (!agent.pathPending)
+        //{
+        //    if (agent.remainingDistance <= agent.stoppingDistance)
+        //    {
+        //        if (!agent.hasPath || agent.velocity.sqrMagnitude == 0.0f)
+        //        {
+        //            agent.isStopped = true;
+        //            animator.SetBool("running", false);
+        //        }
+        //    }
+        //}
     }
 }
