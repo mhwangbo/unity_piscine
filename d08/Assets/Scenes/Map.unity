@@ -266,7 +266,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1 &74545235
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,7 +418,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1 &211405590
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +464,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1 &258495692 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3418839433426957895, guid: 27b89d2711bad4650896834fa22e6f7b,
@@ -555,7 +552,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1 &350845561
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,7 +896,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,7 +1129,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1 &754899617
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,7 +1217,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1 &936733114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1270,7 +1263,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1 &1003752854
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,7 +1309,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1 &1090751894
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,7 +1571,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1 &1552951894
 GameObject:
   m_ObjectHideFlags: 0
@@ -1627,7 +1617,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1 &1741295442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,7 +1771,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 76167010610647466, guid: 3ea17ffc677f64c828e5c2d0abac48df, type: 3}
   - {fileID: 1671619358854812953, guid: 5b10de18d5ad348b9bc97f6ffeb66dae, type: 3}
-  enemyCreated: 0
 --- !u!1001 &3418839433517638283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1854,6 +1842,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StoppingDistance
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3418839434004997347, guid: 27b89d2711bad4650896834fa22e6f7b,
+        type: 3}
+      propertyPath: attackRange
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27b89d2711bad4650896834fa22e6f7b, type: 3}

@@ -6,27 +6,29 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject[] enemies;
     private GameObject enemy;
-    public bool enemyCreated;
-    private LambentController enemyController;
+    private EnemyController enemyController;
+    private bool noRepeat;
 
     private void Start()
     {
         int type = Random.Range(0, 2);
         enemy = (GameObject)Instantiate(enemies[type], transform);
-        enemyCreated = true;
+        enemyController = enemy.GetComponent<EnemyController>();
     }
 
     private void Update()
     {
-        if (!enemyCreated)
+        if (!noRepeat && enemyController.enemyState == EnemyController.State.DYING)
             StartCoroutine(SpawnNewEnemy());
     }
 
     private IEnumerator SpawnNewEnemy()
     {
-        enemyCreated = true;
+        noRepeat = true;
         yield return new WaitForSeconds(15.0f);
         int type = Random.Range(0, 2);
         enemy = (GameObject)Instantiate(enemies[type], transform);
+        enemyController = enemy.GetComponent<EnemyController>();
+        noRepeat = false;
     }
 }

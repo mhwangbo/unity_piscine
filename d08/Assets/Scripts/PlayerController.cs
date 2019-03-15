@@ -5,121 +5,74 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    private NavMeshAgent agent;
+    private NavMeshAgent navMeshAgent;
     private Animator animator;
-    private bool targetEnemy;
+
+    // Target enemy management
     private GameObject enemy;
-    private LambentController enemyController;
-    private Coroutine coroutine;
-    private bool attackStart;
-    private bool firstAttack;
-    private LambentController tmpEnemyController;
-    public bool enemyKilled;
-    private bool attackTiming;
-    private bool animationEnd;
-    private Coroutine oneAttack;
+    private EnemyController enemyController;
+    private bool enemySet;
+    private bool mouseReleased;
+
+    public float attackRange;
 
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
+        float distance = 100.0f;
+
+        if (enemySet)
+            distance = Vector3.Distance(enemy.transform.position, transform.position);
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
             {
-                agent.isStopped = false;
-                agent.destination = hit.point;
-                animator.SetBool("running", true);
+                navMeshAgent.SetDestination(hit.point);
+                navMeshAgent.isStopped = false;
                 if (hit.transform.tag == "Enemy")
                 {
-                    targetEnemy = true;
-                    firstAttack = true;
+                    enemySet = true;
+                    mouseReleased = false;
                     enemy = hit.transform.gameObject;
-                    enemyController = enemy.GetComponent<LambentController>();
-                    enemyKilled = false;
+                    enemyController = enemy.GetComponent<EnemyController>();
                 }
                 else
-                {
-                    targetEnemy = false;
-                    enemy = null;
-                    enemyController = null;
-                    ResetAttack();
-                }
+                    enemySet = false;
             }
         }
-        if (Input.GetMouseButtonUp(0))
-            ResetAttack();
-        if (agent.remainingDistance <= 1.0f)
+        else if (Input.GetMouseButtonUp(0))
         {
-            agent.isStopped = true;
+            mouseReleased = true;
+        }
+        if (enemySet && distance <= attackRange)
+        {
+            Vector3 enemyPosition = new Vector3(enemy.transform.position.x, transform.position.y, enemy.transform.position.z);
+            transform.LookAt(enemyPosition);
+            navMeshAgent.isStopped = true;
+            if (enemyController.enemyState == EnemyController.State.ALIVE)
+            {
+                animator.SetTrigger("attack");
+                if (mouseReleased == true)
+                    enemySet = false;
+            }
+        }
+        if (!enemySet && navMeshAgent.remainingDistance <= 1.0f)
+            navMeshAgent.isStopped = true;
+
+        if (navMeshAgent.isStopped)
             animator.SetBool("running", false);
-            if (targetEnemy && !attackStart)
-                coroutine = StartCoroutine(StartAttack());
-            if (firstAttack && !targetEnemy && !animator.GetBool("attack"))
-                oneAttack = StartCoroutine(AttackOnce());
-        }
+        else
+            animator.SetBool("running", true);
     }
 
-    public void AttackTiming(int s)
+    public void Attack()
     {
-        if (s == 1)
-            attackTiming = true;
-        if (s == 2)
-            animationEnd = true;
-    }
-
-    private IEnumerator AttackOnce()
-    {
-        animator.SetBool("attack", true);
-        yield return new WaitUntil(() => attackTiming);
-        tmpEnemyController.Attacked();
-        attackTiming = false;
-        yield return new WaitUntil(() => animationEnd);
-        animator.SetBool("attack", false);
-        animationEnd = false;
-        firstAttack = false;
-        ResetAttack();
-    }
-
-    private IEnumerator StartAttack()
-    {
-        attackStart = true;
-        animator.SetBool("attack", true);
-        while (true)
-        {
-            if (!firstAttack)
-                firstAttack = false;
-            yield return new WaitUntil(() => attackTiming);
-            enemyController.Attacked();
-            attackTiming = false;
-            yield return new WaitUntil(() => animationEnd);
-            animationEnd = false;
-            if (!enemy)
-                ResetAttack();
-        }
-    }
-
-    private void ResetAttack()
-    {
-        tmpEnemyController = enemyController;
-        targetEnemy = false;
-        enemy = null;
-        animator.SetBool("attack", false);
-        if (attackStart)
-        {
-            StopCoroutine(coroutine);
-            attackStart = false;
-        }
-        if (firstAttack && animator.GetBool("attack"))
-        {
-            StopCoroutine(oneAttack);
-            firstAttack = false;
-        }
+        enemyController.Attacked();
     }
 }
