@@ -22,6 +22,8 @@ public class EnemyController : MonoBehaviour
     // enemy stat
     public CharacterStat stat;
 
+    public GameObject potion;
+
     public enum State
     {
         ALIVE, DYING, SINKING
@@ -99,7 +101,15 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         navMeshAgent.enabled = false;
         enemyState = State.SINKING;
-        Destroy(gameObject, 5);
+        yield return new WaitForSeconds(3.0f);
+        GameObject potionPre = null;
+        if (Random.value <= 1.0f)
+        {
+            potionPre = Instantiate(potion);
+            potionPre.transform.position = new Vector3(transform.position.x, transform.position.y + 7.0f, transform.position.z);
+        }
+        yield return new WaitForSeconds(2.0f);
+        Destroy(gameObject);
     }
 
     public void Attack()

@@ -1759,6 +1759,7 @@ MonoBehaviour:
   enemyState: 0
   curHealth: 0
   sinkSpeed: 1
+  potion: {fileID: 765093290595908122, guid: c6f505ea16c2d44c19810f3cd8ecf9e7, type: 3}
 --- !u!1 &76167010610647468
 GameObject:
   m_ObjectHideFlags: 0

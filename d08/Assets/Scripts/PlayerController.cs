@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     // Player Stat
     public CharacterStat stat;
     [HideInInspector] public float curHealth;
+    private bool potion;
+    private GameObject potionObj;
 
     private void Start()
     {
@@ -39,8 +41,6 @@ public class PlayerController : MonoBehaviour
             curHealth = stat.HP;
         }
 
-        if (enemySet)
-            distance = Vector3.Distance(enemy.transform.position, transform.position);
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
@@ -54,15 +54,27 @@ public class PlayerController : MonoBehaviour
                     mouseReleased = false;
                     enemy = hit.transform.gameObject;
                     enemyController = enemy.GetComponent<EnemyController>();
+                    potion = false;
                 }
                 else
+                {
                     enemySet = false;
+                    potion = false;
+                }
+                if (hit.transform.tag == "Potion")
+                {
+                    potion = true;
+                    potionObj = hit.transform.gameObject;
+                }
             }
         }
         else if (Input.GetMouseButtonUp(0))
         {
             mouseReleased = true;
         }
+
+        if (enemySet)
+            distance = Vector3.Distance(enemy.transform.position, transform.position);
         if (enemySet && distance <= attackRange)
         {
             Vector3 enemyPosition = new Vector3(enemy.transform.position.x, transform.position.y, enemy.transform.position.z);
@@ -76,7 +88,17 @@ public class PlayerController : MonoBehaviour
             }
         }
         if (!enemySet && navMeshAgent.remainingDistance <= 1.0f)
+        {
             navMeshAgent.isStopped = true;
+            if (potion)
+            {
+                curHealth += stat.HP * 0.3f;
+                if (curHealth > stat.HP)
+                    curHealth = stat.HP;
+                potion = false;
+                Destroy(potionObj);
+            }
+        }
 
         if (navMeshAgent.isStopped)
             animator.SetBool("running", false);
@@ -93,6 +115,8 @@ public class PlayerController : MonoBehaviour
             if (random <= hitChance / 100)
                 enemyController.Attacked(stat.FinalDamage(0.0f));
         }
+        else
+            enemySet = false;
     }
 
     public void Attacked(float damage)
@@ -112,5 +136,10 @@ public class PlayerController : MonoBehaviour
     {
         navMeshAgent.isStopped = trueOrFalse;
         
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        print("trigger");
     }
 }
