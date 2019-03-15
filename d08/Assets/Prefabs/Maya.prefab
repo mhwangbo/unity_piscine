@@ -685,6 +685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0686c15d868024684bbf52d718ceb734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyKilled: 0
 --- !u!1 &3418839433426957897
 GameObject:
   m_ObjectHideFlags: 0

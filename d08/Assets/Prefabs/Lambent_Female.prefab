@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 76167010364916372}
   - component: {fileID: 76167010364916375}
-  m_Layer: 9
+  m_Layer: 2
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1690,9 +1690,10 @@ GameObject:
   - component: {fileID: 76167010610616037}
   - component: {fileID: 76167010610616035}
   - component: {fileID: 76167010610616034}
+  - component: {fileID: 607010070728705473}
   m_Layer: 9
   m_Name: Lambent_Female
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1705,7 +1706,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76167010610647466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 313.6, y: 0, z: 228.2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 76167010610482286}
@@ -1759,8 +1760,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 25
-  m_Acceleration: 25
+  m_Speed: 28
+  m_Acceleration: 28
   avoidancePriority: 50
   m_AngularSpeed: 20000
   m_StoppingDistance: 0
@@ -1783,6 +1784,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccaa42ef3e4a54b04a1b211a6dcc4c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
+--- !u!136 &607010070728705473
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76167010610647466}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &76167010610647468
 GameObject:
   m_ObjectHideFlags: 0

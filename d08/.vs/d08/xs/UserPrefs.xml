@@ -1,10 +1,12 @@
 ﻿<Properties StartupConfiguration="{7BA55D57-7DA7-3AC3-DBBD-3C9E79295CFE}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LambentController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/EnemyController.cs">
     <Files>
-      <File FileName="Assets/Scripts/PlayerController.cs" Line="43" Column="1" />
+      <File FileName="Assets/Scripts/PlayerController.cs" Line="119" Column="55" />
+      <File FileName="Assets/Scripts/LambentController.cs" Line="30" Column="10" />
+      <File FileName="Assets/Scripts/EnemySpawner.cs" Line="28" Column="43" />
       <File FileName="Assets/Scripts/CamaraController.cs" Line="18" Column="6" />
-      <File FileName="Assets/Scripts/LambentController.cs" Line="16" Column="9" />
+      <File FileName="Assets/Scripts/EnemyController.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
