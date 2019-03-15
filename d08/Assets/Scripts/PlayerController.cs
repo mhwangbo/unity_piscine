@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     // Player Stat
     public CharacterStat stat;
+    public float curHealth;
 
     private void Start()
     {
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         stat = new CharacterStat(Random.Range(10, 20), Random.Range(10, 20), Random.Range(10, 20));
         stat.ArmorStat = 140.0f;
+        curHealth = stat.HP;
     }
 
     private void Update()

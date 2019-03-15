@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         navMeshAgent.isStopped = true;
-        stat = new CharacterStat(Random.Range(10, 18), Random.Range(10, 18), Random.Range(10, 18));
+        stat = new CharacterStat(Random.Range(5, 11), Random.Range(5, 11), Random.Range(5, 11));
         curHealth = stat.HP;
     }
 
