@@ -9,16 +9,16 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     // Target enemy management
-    private GameObject enemy;
+    [HideInInspector] public GameObject enemy;
     private EnemyController enemyController;
-    private bool enemySet;
+    [HideInInspector] public bool enemySet;
     private bool mouseReleased;
 
     public float attackRange;
 
     // Player Stat
     public CharacterStat stat;
-    public float curHealth;
+    [HideInInspector] public float curHealth;
 
     private void Start()
     {

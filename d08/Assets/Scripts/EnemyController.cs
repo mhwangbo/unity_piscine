@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     public float detectRange;
     public float attackRange;
     public State enemyState;
-    public float curHealth;
+    [HideInInspector] public float curHealth;
     private bool playerDetected;
 
     public float sinkSpeed;
@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         navMeshAgent.isStopped = true;
-        stat = new CharacterStat(Random.Range(5, 11), Random.Range(5, 11), Random.Range(5, 11));
+        stat = new CharacterStat(Random.Range(5, 8), Random.Range(5, 8), Random.Range(5, 8));
         curHealth = stat.HP;
     }
 

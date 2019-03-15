@@ -2,12 +2,12 @@
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PlayerController.cs">
     <Files>
-      <File FileName="Assets/Scripts/PlayerController.cs" Line="82" Column="37" />
-      <File FileName="Assets/Scripts/EnemyController.cs" Line="35" Column="95" />
+      <File FileName="Assets/Scripts/PlayerController.cs" Line="12" Column="29" />
+      <File FileName="Assets/Scripts/UIController.cs" Line="41" Column="43" />
+      <File FileName="Assets/Scripts/EnemyController.cs" Line="35" Column="91" />
       <File FileName="Assets/Scripts/CharacterStat.cs" Line="107" Column="38" />
       <File FileName="Assets/Scripts/EnemySpawner.cs" Line="21" Column="61" />
       <File FileName="Assets/Scripts/CamaraController.cs" Line="18" Column="6" />
-      <File FileName="Assets/Scripts/UIController.cs" Line="10" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
