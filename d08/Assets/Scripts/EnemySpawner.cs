@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    private PlayerController playerController;
     public GameObject[] enemies;
     private GameObject enemy;
     private EnemyController enemyController;
@@ -14,11 +15,12 @@ public class EnemySpawner : MonoBehaviour
         int type = Random.Range(0, 2);
         enemy = (GameObject)Instantiate(enemies[type], transform);
         enemyController = enemy.GetComponent<EnemyController>();
+        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
     private void Update()
     {
-        if (!noRepeat && enemyController.enemyState == EnemyController.State.DYING)
+        if (!noRepeat && enemyController.enemyState == EnemyController.State.DYING && playerController.curHealth > 0)
             StartCoroutine(SpawnNewEnemy());
     }
 

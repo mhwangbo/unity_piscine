@@ -21,6 +21,8 @@ public class CharacterStat
 
     private int money = 0;
 
+    private int point = 0;
+
     public CharacterStat(float str, float agi, float con)
     {
         strength = str;
@@ -41,20 +43,39 @@ public class CharacterStat
         return (BasicDamage * (1 - targetArmor / 200));
     }
 
+    public void EnemyLevelUp()
+    {
+        level += 1;
+        strength *= 1.15f;
+        agility *= 1.15f;
+        constitution *= 1.15f;
+    }
+
+    public void LevelUP()
+    {
+        point += 5;
+        level++;
+        exp -= requiredEXP;
+        requiredEXP += requiredEXP * 1.5f;
+    }
+
     // getter and setter
     public float Strength
     {
         get { return strength; }
+        set { strength = value; }
     }
 
     public float Agility
     {
         get { return agility; }
+        set { agility = value; }
     }
 
     public float Constitution
     {
         get { return constitution; }
+        set { constitution = value; }
     }
 
     public float ArmorStat
@@ -105,5 +126,11 @@ public class CharacterStat
     public float RequiredEXP
     {
         get { return (requiredEXP); }
+    }
+
+    public int Point
+    {
+        get { return (point); }
+        set { point = value; }
     }
 }

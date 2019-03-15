@@ -1754,10 +1754,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  detectRange: 15
+  detectRange: 30
   attackRange: 6
   enemyState: 0
-  maxHealth: 3
+  curHealth: 0
   sinkSpeed: 1
 --- !u!1 &76167010610647468
 GameObject:

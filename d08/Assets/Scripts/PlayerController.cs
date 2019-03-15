@@ -33,6 +33,12 @@ public class PlayerController : MonoBehaviour
     {
         float distance = 100.0f;
 
+        if (stat.EXP >= stat.RequiredEXP)
+        {
+            stat.LevelUP();
+            curHealth = stat.HP;
+        }
+
         if (enemySet)
             distance = Vector3.Distance(enemy.transform.position, transform.position);
         if (Input.GetMouseButtonDown(0))
@@ -80,9 +86,31 @@ public class PlayerController : MonoBehaviour
 
     public void Attack()
     {
-        float hitChance = stat.HitChance(enemyController.stat.Agility);
-        float random = Random.value;
-        if (random <= hitChance / 100)
-            enemyController.Attacked(stat.FinalDamage(0.0f));
+        if (enemyController.enemyState == EnemyController.State.ALIVE)
+        {
+            float hitChance = stat.HitChance(enemyController.stat.Agility);
+            float random = Random.value;
+            if (random <= hitChance / 100)
+                enemyController.Attacked(stat.FinalDamage(0.0f));
+        }
+    }
+
+    public void Attacked(float damage)
+    {
+        curHealth -= damage;
+        if (curHealth <= 0)
+            Die();
+    }
+
+    private void Die()
+    {
+        navMeshAgent.isStopped = true;
+        animator.SetTrigger("death");
+    }
+
+    public void Stop(bool trueOrFalse)
+    {
+        navMeshAgent.isStopped = trueOrFalse;
+        
     }
 }

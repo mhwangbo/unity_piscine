@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     public GameObject player;
+    private PlayerController playerController;
 
     public float detectRange;
     public float attackRange;
@@ -29,10 +30,14 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         navMeshAgent.isStopped = true;
         stat = new CharacterStat(Random.Range(5, 8), Random.Range(5, 8), Random.Range(5, 8));
+        int playerLevel = playerController.stat.Level;
+        for (int i = 1; i < playerLevel; i++)
+            stat.EnemyLevelUp();
         curHealth = stat.HP;
     }
 
@@ -83,6 +88,7 @@ public class EnemyController : MonoBehaviour
 
     private void Die()
     {
+        playerController.stat.EXP = stat.HP / 5;
         enemyState = State.DYING;
         navMeshAgent.isStopped = true;
         animator.SetTrigger("death");
@@ -94,5 +100,15 @@ public class EnemyController : MonoBehaviour
         navMeshAgent.enabled = false;
         enemyState = State.SINKING;
         Destroy(gameObject, 5);
+    }
+
+    public void Attack()
+    {
+        float hitChance = stat.HitChance(playerController.stat.Agility);
+        float random = Random.value;
+        if (random <= hitChance / 100)
+            playerController.Attacked(stat.FinalDamage(0.0f));
+        if (playerController.curHealth <= 0)
+            StartCoroutine(StartSinking());
     }
 }
