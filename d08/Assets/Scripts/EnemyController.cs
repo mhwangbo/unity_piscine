@@ -10,14 +10,16 @@ public class EnemyController : MonoBehaviour
     public float detectRange;
     public float attackRange;
     public State enemyState;
-    public int maxHealth;
-    private int curHealth;
+    public float curHealth;
     private bool playerDetected;
 
     public float sinkSpeed;
 
     private Animator animator;
     private NavMeshAgent navMeshAgent;
+
+    // enemy stat
+    public CharacterStat stat;
 
     public enum State
     {
@@ -29,8 +31,9 @@ public class EnemyController : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        curHealth = maxHealth;
         navMeshAgent.isStopped = true;
+        stat = new CharacterStat(Random.Range(10, 18), Random.Range(10, 18), Random.Range(10, 18));
+        curHealth = stat.HP;
     }
 
     void Update()
@@ -68,11 +71,11 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void Attacked()
+    public void Attacked(float damage)
     {
         if (enemyState == State.ALIVE)
         {
-            curHealth -= 1;
+            curHealth -= damage;
             if (curHealth <= 0)
                 Die();
         }

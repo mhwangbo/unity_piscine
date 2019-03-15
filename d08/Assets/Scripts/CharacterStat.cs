@@ -16,6 +16,7 @@ public class CharacterStat
     private float maxDamage;
 
     private int level = 1;
+    private float requiredEXP = 10.0f;
     private float exp = 0.0f;
 
     private int money = 0;
@@ -30,6 +31,15 @@ public class CharacterStat
         maxDamage = minDamage + 4;
     }
 
+    public float HitChance(float targetAGI)
+    {
+        return (75.0f + agility - targetAGI);
+    }
+
+    public float FinalDamage(float targetArmor)
+    {
+        return (BasicDamage * (1 - targetArmor / 200));
+    }
 
     // getter and setter
     public float Strength
@@ -39,7 +49,7 @@ public class CharacterStat
 
     public float Agility
     {
-        get { return Agility; }
+        get { return agility; }
     }
 
     public float Constitution
@@ -78,12 +88,22 @@ public class CharacterStat
     public float EXP
     {
         get { return exp; }
-        set { exp = value; }
+        set { exp += value; }
     }
 
     public int Money
     {
         get { return money; }
         set { money = value; }
+    }
+
+    public float BasicDamage
+    {
+        get { return (Random.Range(minDamage, maxDamage)); }
+    }
+
+    public float RequiredEXP
+    {
+        get { return (requiredEXP); }
     }
 }

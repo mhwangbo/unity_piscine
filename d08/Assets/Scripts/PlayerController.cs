@@ -17,14 +17,14 @@ public class PlayerController : MonoBehaviour
     public float attackRange;
 
     // Player Stat
-    private CharacterStat stat;
+    public CharacterStat stat;
 
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         stat = new CharacterStat(Random.Range(10, 20), Random.Range(10, 20), Random.Range(10, 20));
-        print(stat.HP);
+        stat.ArmorStat = 140.0f;
     }
 
     private void Update()
@@ -78,6 +78,9 @@ public class PlayerController : MonoBehaviour
 
     public void Attack()
     {
-        enemyController.Attacked();
+        float hitChance = stat.HitChance(enemyController.stat.Agility);
+        float random = Random.value;
+        if (random <= hitChance / 100)
+            enemyController.Attacked(stat.FinalDamage(0.0f));
     }
 }
