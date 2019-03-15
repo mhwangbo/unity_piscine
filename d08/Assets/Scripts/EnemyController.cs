@@ -76,7 +76,6 @@ public class EnemyController : MonoBehaviour
             if (curHealth <= 0)
                 Die();
         }
-        print(curHealth);
     }
 
     private void Die()

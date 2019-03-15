@@ -16,10 +16,15 @@ public class PlayerController : MonoBehaviour
 
     public float attackRange;
 
+    // Player Stat
+    private CharacterStat stat;
+
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        stat = new CharacterStat(Random.Range(10, 20), Random.Range(10, 20), Random.Range(10, 20));
+        print(stat.HP);
     }
 
     private void Update()
