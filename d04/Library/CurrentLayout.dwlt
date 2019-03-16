@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 4}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 548}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_MinSize: {x: 232, y: 498}
   m_MaxSize: {x: 10002, y: 14048}
   vertical: 1
-  controlID: 123
+  controlID: 125
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -145,10 +145,10 @@ MonoBehaviour:
     y: 30
     width: 2323
     height: 1118
-  m_MinSize: {x: 711, y: 498}
-  m_MaxSize: {x: 18006, y: 14048}
+  m_MinSize: {x: 713, y: 498}
+  m_MaxSize: {x: 18008, y: 14048}
   vertical: 0
-  controlID: 122
+  controlID: 124
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -189,8 +189,8 @@ MonoBehaviour:
     y: 0
     width: 1172
     height: 700
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 224}
+  m_MaxSize: {x: 4002, y: 4024}
   m_ActualView: {fileID: 22}
   m_Panes:
   - {fileID: 23}
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_MinSize: {x: 204, y: 348}
   m_MaxSize: {x: 4004, y: 8048}
   vertical: 1
-  controlID: 50
+  controlID: 61
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -620,7 +620,7 @@ MonoBehaviour:
       splitSize: 6
       xOffset: 0
     m_HorizontalSplitter:
-      ID: 31
+      ID: 42
       splitterInitialOffset: 0
       currentActiveSplitter: -1
       realSizes: a000000054010000
@@ -722,9 +722,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 71}
-    m_SelectedIDs: 0e4a0000
-    m_LastClickedID: 18958
-    m_ExpandedIDs: 00000000880b0000460c0000a20c0000380d00006e0d0000800d0000da0d0000c0170000c4170000fa170000aa1800002e1900003c1900003e19000052190000ca190000da1900007e1a00000a1c0000381c0000501c00006c1c0000761c0000ca1e0000fa1f000004200000a4210000d621000000240000c6250000e825000042280000642b0000fe4700008c490000de490000a04a0000a84a0000b24a00000a4e0000744e0000764e0000784e00007a4e00007c4e00007e4e0000804e0000824e0000844e0000864e0000884e00008a4e00008c4e00008e4e0000904e0000924e000000ca9a3b
+    m_SelectedIDs: 82170000
+    m_LastClickedID: 6018
+    m_ExpandedIDs: 000000003e0a0000561500007e160000181c0000301c00004c1c00007c200000962600009a260000d02600008027000004280000122800001428000028280000a0280000b028000054290000e02a00000e2b0000262b0000422b00004c2b0000a02d0000d02e0000da2e00007a300000ac300000d63200009c340000be340000183700003a3a0000623d0000643d0000663d0000683d00006a3d00006c3d00006e3d0000703d0000723d0000743d0000763d0000783d00007a3d00007c3d00007e3d0000803d0000823d0000843d0000863d0000883d00008a3d00008c3d00008e3d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -752,7 +752,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 1377}
     m_SelectedIDs: 6c6effff
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000880b0000460c0000a20c0000380d00006e0d0000800d0000da0d0000c0170000c4170000fa170000aa1800002e1900003c1900003e19000052190000ca190000da1900007e1a00000a1c0000381c0000501c00006c1c0000761c0000ca1e0000fa1f000004200000a4210000d621000000240000c6250000e825000042280000642b0000fe4700008c490000de490000a04a0000a84a0000b24a00000a4e0000744e0000764e0000784e00007a4e00007c4e00007e4e0000804e0000824e0000844e0000864e0000884e00008a4e00008c4e00008e4e0000904e0000924e0000
+    m_ExpandedIDs: 000000003e0a0000561500007e160000181c0000301c00004c1c00007c200000962600009a260000d02600008027000004280000122800001428000028280000a0280000b028000054290000e02a00000e2b0000262b0000422b00004c2b0000a02d0000d02e0000da2e00007a300000ac300000d63200009c340000be340000183700003a3a0000623d0000643d0000663d0000683d00006a3d00006c3d00006e3d0000703d0000723d0000743d0000763d0000783d00007a3d00007c3d00007e3d0000803d0000823d0000843d0000863d0000883d00008a3d00008c3d00008e3d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -995,9 +995,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 265d0000aa5c0000ae5c0000f65c0000065d0000be5c00008a5c0000165d0000ee5c0000
-      m_LastClickedID: 23790
-      m_ExpandedIDs: 468cffff30a1ffffd2a1ffff7ca2ffff3aa6ffffd04e0000765c0000
+      m_SelectedIDs: fa130000
+      m_LastClickedID: 0
+      m_ExpandedIDs: 74faffffd6fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
