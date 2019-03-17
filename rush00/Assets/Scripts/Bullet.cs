@@ -8,10 +8,12 @@ public class Bullet : MonoBehaviour
     public float range;
 
     private Vector3 startPosition;
+    private Rigidbody2D rb2d;
 
     private void Start()
     {
         startPosition = transform.position;
+        rb2d = GetComponent<Rigidbody2D>();
     }
 
     private void Update()

@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Room 1 Floor
   - Door
+  - Wall
+  - Car
   layers:
   - Default
   - TransparentFX

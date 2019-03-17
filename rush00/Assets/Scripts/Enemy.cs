@@ -11,6 +11,11 @@ public class Enemy : MonoBehaviour
     public SpriteRenderer bodyRender;
     public GameObject alertSign;
     public float speed;
+
+    public bool isPatrol;
+    public GameObject nextCheckPoint;
+    private Vector3 lastPos;
+
     private GameObject player;
     private PlayerController playerController;
     private Weapon weapon;
@@ -18,6 +23,12 @@ public class Enemy : MonoBehaviour
     private Animator animator;
 
     private bool isKilled;
+
+    private Rigidbody2D rb2d;
+
+    private Transform target;
+
+    public AudioClip[] aDeath;
 
     private void Start()
     {
@@ -30,11 +41,15 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
+        rb2d = GetComponent<Rigidbody2D>();
+        lastPos = transform.position;
+        if (isPatrol)
+            animator.SetBool("moving", true);
     }
 
     private void Update()
     {
-        if (!playerController.IsKilled && !isKilled)
+        if (!playerController.IsKilled && !playerController.IsWon && !isKilled)
         {
             float distance = Vector3.Distance(player.transform.position, transform.position);
             if (distance <= 10.0f && playerController.Shot)
@@ -49,7 +64,7 @@ public class Enemy : MonoBehaviour
                 float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
 
-                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+                rb2d.MovePosition(transform.position + transform.up * speed * Time.deltaTime);
                 StartCoroutine(Shooting());
             }
         }
@@ -59,10 +74,34 @@ public class Enemy : MonoBehaviour
             playerDetected = false;
         }
         else if (isKilled)
-        {
             StartCoroutine(Killed());
+
+        if (isPatrol)
+        {
+            if (!playerDetected && !isKilled)
+            {
+                Vector3 diff = nextCheckPoint.transform.position - transform.position;
+                if (diff.sqrMagnitude <= 0.1f)
+                    nextCheckPoint = nextCheckPoint.GetComponent<CheckPoint>().nextCheckPoint;
+                else
+                {
+                    lookForward();
+                    float step = speed * Time.deltaTime;
+                    transform.position = Vector2.MoveTowards(transform.position, nextCheckPoint.transform.position, step);
+                }
+            }
         }
-            
+    }
+
+    void lookForward()
+    {
+        Vector3 moveDirection = gameObject.transform.position - lastPos;
+        if (moveDirection != Vector3.zero)
+        {
+            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, 0f, angle - 90);
+        }
+        lastPos = gameObject.transform.position;
     }
 
     private IEnumerator Shooting()
@@ -96,6 +135,7 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator Killed()
     {
+        SoundManager.instance.RandomSound(aDeath);
         animator.SetBool("moving", false);
         playerDetected = false;
         transform.Rotate(Vector3.forward * 500f * Time.deltaTime);

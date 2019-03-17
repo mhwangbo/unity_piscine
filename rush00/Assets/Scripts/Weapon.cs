@@ -15,8 +15,10 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float range;
     [SerializeField] private int ammo;
     [SerializeField] private float shotSpeed;
+    [SerializeField] private AudioClip audioClip;
 
     [SerializeField] private string type;
+    public string Type{ get { return type; } }
 
     private bool hot;
 
@@ -27,11 +29,15 @@ public class Weapon : MonoBehaviour
     public Sprite Equipped { get { return equipped; }}
     private bool collided;
 
+    private AudioSource audioSource;
+
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (!fireArms)
             range = 0.5F;
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = audioClip;
     }
 
     public void ChangeSprite()
@@ -45,6 +51,7 @@ public class Weapon : MonoBehaviour
             ammo = 1;
         if (!hot && ammo > 0)
         {
+            audioSource.Play();
             GameObject shot = Instantiate(bullet);
             shot.layer = gameObject.layer;
             shot.transform.position = transform.position;
@@ -59,7 +66,6 @@ public class Weapon : MonoBehaviour
 
     private IEnumerator Cool()
     {
-        print(hot);
         hot = true;
         yield return new WaitForSeconds(shotSpeed);
         hot = false;
@@ -76,6 +82,7 @@ public class Weapon : MonoBehaviour
         spriteRenderer.sprite = unequipped;
         GameObject thrown = Instantiate(gameObject);
         Rigidbody2D rb = thrown.GetComponent<Rigidbody2D>();
+        rb.transform.name = transform.name;
 
         rb.isKinematic = false;
         spriteRenderer.enabled = false;

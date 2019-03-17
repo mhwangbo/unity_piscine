@@ -159,7 +159,14 @@ MonoBehaviour:
   headRender: {fileID: 6267425610199469661}
   bodyRender: {fileID: 6267425609530608908}
   alertSign: {fileID: 31507953}
-  speed: 1.5
+  speed: 3
+  isPatrol: 0
+  nextCheckPoint: {fileID: 0}
+  aDeath:
+  - {fileID: 8300000, guid: ee5d9085bdea946249671138763e1bf7, type: 3}
+  - {fileID: 8300000, guid: 8aed53bbcb68b4702a6d7e2e06ddf294, type: 3}
+  - {fileID: 8300000, guid: c7ecc4a937cca491da8741b12f4522b3, type: 3}
+  - {fileID: 8300000, guid: 61f34fee662fe406994204e8723ee10c, type: 3}
 --- !u!61 &540527606352925346
 BoxCollider2D:
   m_ObjectHideFlags: 0

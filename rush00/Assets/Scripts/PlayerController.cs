@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,11 +10,13 @@ public class PlayerController : MonoBehaviour
 
     // weapon management
     [SerializeField] private GameObject curWeapon;
+    public GameObject CurWeapon { get { return CurWeapon; } }
 
     private Rigidbody2D rb2D;
 
     private Weapon weaponStat;
     private bool equipWeapon;
+    public bool EquipWeapon { get { return equipWeapon; } }
     private bool shot;
 
     public bool Shot { get { return shot; } set { shot = value; }}
@@ -21,6 +24,14 @@ public class PlayerController : MonoBehaviour
     private bool isKilled;
     public bool IsKilled{ get { return isKilled; }}
 
+    private bool isWon;
+    public bool IsWon{ get { return isWon; }}
+
+    //audio
+    //public AudioClip aWin;
+    public AudioClip aLose;
+    public AudioClip aDrop;
+    public AudioClip aPickup;
 
     private void Start()
     {
@@ -30,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!isKilled)
+        if (!isKilled && !isWon)
         {
             CharacterMovement();
             if (Input.GetMouseButtonDown(0))
@@ -44,14 +55,22 @@ public class PlayerController : MonoBehaviour
             }
             if (equipWeapon && Input.GetMouseButtonDown(1))
             {
+                SoundManager.instance.PlaySingle(aDrop);
                 weaponStat.Dropped();
                 equipWeapon = false;
                 curWeapon = null;
             }
         }
-        else
+        else if (isKilled)
             StartCoroutine(Killed());
+        CheckEnemy();
+    }
 
+    private void CheckEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if (enemies.Length == 0)
+            isWon = true;
     }
 
     private IEnumerator ShotSound()
@@ -63,9 +82,10 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Killed()
     {
+        SoundManager.instance.PlaySingle(aLose);
         transform.Rotate(Vector3.forward * 500f * Time.deltaTime);
         yield return new WaitForSeconds(2.0f);
-        Destroy(this.gameObject);
+        // Destroy(this.gameObject);
     }
 
     void CharacterMovement()
@@ -82,8 +102,10 @@ public class PlayerController : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
 
         // transform.position += new Vector3(x, y, 0f) * speed * Time.deltaTime;
-        // rb2D.AddForce(new Vector2(x, y) * speed * Time.deltaTime);
-        rb2D.MovePosition(new Vector2(x, y) * speed * Time.deltaTime);
+        // rb2D.AddForce(new Vector2(x, y) * speed);
+        // rb2D.MovePosition(transform.position + new Vector3(x, y, 0f) * Time.deltaTime * speed);
+        // rb2D.position += new Vector2(x, y) * speed * Time.deltaTime;
+        rb2D.velocity = new Vector2(x, y) * speed;
 
         Vector3 camPos = new Vector3(transform.position.x, transform.position.y, -10f);
         cam.transform.position = camPos;
@@ -95,8 +117,10 @@ public class PlayerController : MonoBehaviour
         {
             if (!equipWeapon && Input.GetKeyDown("e"))
             {
+                SoundManager.instance.PlaySingle(aPickup);
                 equipWeapon = true;
                 curWeapon = Instantiate(collision.gameObject, transform.Find("Weapon"));
+                curWeapon.transform.name = collision.gameObject.transform.name;
                 curWeapon.transform.localRotation = Quaternion.identity;
                 curWeapon.transform.localPosition = Vector3.zero;
                 curWeapon.layer = gameObject.layer;
@@ -111,6 +135,8 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.transform.tag == "Bullet")
             isKilled = true;
+        if (collision.transform.tag == "Car")
+            isWon = true;
     }
 
 }

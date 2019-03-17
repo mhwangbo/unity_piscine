@@ -208,6 +208,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   curWeapon: {fileID: 417993650}
+  isKilled: 0
+  aLose: {fileID: 8300000, guid: 7faccf86862cc43bb9a5589bbb6c955f, type: 3}
+  aDrop: {fileID: 8300000, guid: 48d68d12751aa44cb87bfa4f2ca98bb6, type: 3}
+  aPickup: {fileID: 8300000, guid: bd5112458d23d48faa52fe82499275ed, type: 3}
 --- !u!50 &446109544
 Rigidbody2D:
   serializedVersion: 4
