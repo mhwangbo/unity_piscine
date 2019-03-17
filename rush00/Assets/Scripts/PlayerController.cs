@@ -10,11 +10,12 @@ public class PlayerController : MonoBehaviour
 
     // weapon management
     [SerializeField] private GameObject curWeapon;
-    public GameObject CurWeapon { get { return CurWeapon; } }
+    public GameObject CurWeapon { get { return curWeapon; } }
 
     private Rigidbody2D rb2D;
 
     private Weapon weaponStat;
+    public Weapon WeaponStat { get { return weaponStat; } }
     private bool equipWeapon;
     public bool EquipWeapon { get { return equipWeapon; } }
     private bool shot;

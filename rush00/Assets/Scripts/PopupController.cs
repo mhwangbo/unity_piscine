@@ -12,6 +12,7 @@ public class PopupController : MonoBehaviour
     public GameObject gameOver;
     public GameObject Won;
     public Weapon currentWeapon;
+    private bool init;
 
     void Start()
     {
@@ -33,10 +34,19 @@ public class PopupController : MonoBehaviour
             gameOver.SetActive(true);
         if (playerController.EquipWeapon)
         {
+            if (!init)
+            {
+                currentWeapon = playerController.WeaponStat;
+            }
             weaponName.text = playerController.CurWeapon.name;
-            bullet.text = currentWeapon.Ammo.ToString();
+            if (currentWeapon.Type == "Hand")
+                bullet.text = "infinite";
+            else
+                bullet.text = currentWeapon.Ammo.ToString();
             type.text = currentWeapon.Type;
         }
+        else if (!playerController.EquipWeapon)
+            ResetText();
         if (playerController.IsWon)
             Won.SetActive(true);
     }

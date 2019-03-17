@@ -87,10 +87,9 @@ public class MainMenuController : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
-                    StopCoroutine(titlec);
-
-                }
+                    StopAllCoroutines();
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
                 break;
             case 1:
                 StartCoroutine(bgmoving(exitBG));
