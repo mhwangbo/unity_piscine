@@ -7,6 +7,8 @@ TagManager:
   - Weapon
   - Bullet
   - Enemy
+  - Room 1 Floor
+  - Door
   layers:
   - Default
   - TransparentFX

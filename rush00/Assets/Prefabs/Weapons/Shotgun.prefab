@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8100959581381200275}
   - component: {fileID: 2666128870109027006}
   - component: {fileID: 3393002787924535832}
+  - component: {fileID: 8466922534922914360}
+  - component: {fileID: 6560529179927560045}
   m_Layer: 0
   m_Name: Shotgun
   m_TagString: Weapon
@@ -102,6 +104,7 @@ MonoBehaviour:
   range: 20
   ammo: 10
   shotSpeed: 0.8
+  type: 
 --- !u!61 &3393002787924535832
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -128,3 +131,46 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.875, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &8466922534922914360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2666128870109027005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8304bc788e374ebdb7b89f757af22a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  equipped: {fileID: 21300000, guid: 2775ead70e19f415884382d7d0911c04, type: 3}
+  unequipped: {fileID: 21300000, guid: b99032e6f1f9a49e5adb932489c76376, type: 3}
+  bullet: {fileID: 1740106143573634983, guid: 39489bf18741044279efb5ac0bfde52f, type: 3}
+  bulletImage: {fileID: 21300000, guid: baf659e9ad4e34fbdb3fb0dd0b7d4fb1, type: 3}
+  fireArms: 1
+  range: 20
+  ammo: 10
+  shotSpeed: 0.8
+  type: 
+--- !u!50 &6560529179927560045
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2666128870109027005}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

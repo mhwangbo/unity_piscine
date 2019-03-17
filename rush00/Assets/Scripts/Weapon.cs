@@ -25,6 +25,7 @@ public class Weapon : MonoBehaviour
     public int Ammo { get { return ammo; } }
     public float ShotSpeed { get { return shotSpeed; } }
     public Sprite Equipped { get { return equipped; }}
+    private bool collided;
 
     private void Start()
     {
@@ -58,6 +59,7 @@ public class Weapon : MonoBehaviour
 
     private IEnumerator Cool()
     {
+        print(hot);
         hot = true;
         yield return new WaitForSeconds(shotSpeed);
         hot = false;
@@ -73,18 +75,32 @@ public class Weapon : MonoBehaviour
     {
         spriteRenderer.sprite = unequipped;
         GameObject thrown = Instantiate(gameObject);
+        Rigidbody2D rb = thrown.GetComponent<Rigidbody2D>();
+
+        rb.isKinematic = false;
         spriteRenderer.enabled = false;
         thrown.transform.position = transform.position;
         thrown.transform.rotation = transform.rotation;
         thrown.layer = 0;
         BoxCollider2D box = thrown.GetComponent<BoxCollider2D>();
         box.enabled = true;
-        while (Vector3.Distance(transform.position, thrown.transform.position) < 3.0f)
+        box.isTrigger = false;
+        Coroutine coroutine = StartCoroutine(Fly(thrown));
+        yield return new WaitForSeconds(0.1f);
+        StopCoroutine(coroutine);
+        rb.WakeUp();
+        rb.isKinematic = true;
+        box.isTrigger = true;
+        yield return new WaitForSeconds(1.0f);
+        Destroy(this.gameObject);
+    }
+
+    private IEnumerator Fly(GameObject thrown)
+    {
+        while(true)
         {
             thrown.transform.Translate(Vector3.up * 10.0f * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
-        yield return new WaitForSeconds(1.0f);
-        Destroy(this.gameObject);
     }
 }

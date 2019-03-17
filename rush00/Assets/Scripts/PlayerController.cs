@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
 
     // weapon management
     [SerializeField] private GameObject curWeapon;
+
+    private Rigidbody2D rb2D;
+
     private Weapon weaponStat;
     private bool equipWeapon;
     private bool shot;
@@ -22,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
+        rb2D = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -53,7 +57,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ShotSound()
     {
         shot = true;
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.5f);
         shot = false;
     }
 
@@ -77,7 +81,9 @@ public class PlayerController : MonoBehaviour
         float y = Input.GetAxis("Vertical");
         float x = Input.GetAxis("Horizontal");
 
-        transform.position += new Vector3(x, y, 0f) * speed * Time.deltaTime;
+        // transform.position += new Vector3(x, y, 0f) * speed * Time.deltaTime;
+        // rb2D.AddForce(new Vector2(x, y) * speed * Time.deltaTime);
+        rb2D.MovePosition(new Vector2(x, y) * speed * Time.deltaTime);
 
         Vector3 camPos = new Vector3(transform.position.x, transform.position.y, -10f);
         cam.transform.position = camPos;
