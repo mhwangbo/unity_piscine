@@ -105,6 +105,7 @@ public class GolfController : MonoBehaviour
                 if (holeNumber < 3)
                 {
                     isPowerBarStarted = false;
+                    uiController.StopPowerBar(true);
                     isShoot = false;
                     holeNumber++;
                     shotNumber = 0;

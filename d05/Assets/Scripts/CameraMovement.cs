@@ -95,7 +95,9 @@ public class CameraMovement : MonoBehaviour
     void moveCamera(Vector3 direction)
     {
         if (locked)
+        {
             locked = false;
+        }
         transform.Translate(direction * Time.deltaTime * speedM);
     }
 }

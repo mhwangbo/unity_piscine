@@ -42,9 +42,7 @@ public class BallController : MonoBehaviour
         while (!isSleeping)
         {
             time += Time.deltaTime;
-            if (hole)
-                rb.drag = 50.0f;
-            if (golfController.terrainIndex == 1 && time > 0.10f)
+            if (golfController.terrainIndex == 1 && time > 0.20f)
                 rb.drag = 10.0f;
             if (time > 0.20f)
                 rb.drag = 50.0f;
@@ -64,5 +62,11 @@ public class BallController : MonoBehaviour
             hole = true;
         if (other.gameObject.layer == 4)
             inWater = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.transform.tag == "hole")
+            hole = false;
     }
 }
