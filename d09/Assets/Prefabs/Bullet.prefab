@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 8356473504781220986}
   - component: {fileID: 380384958540755602}
   - component: {fileID: 710226736482732786}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -205,6 +205,8 @@ MonoBehaviour:
   target: {x: 0, y: 0, z: 0}
   particle: {fileID: 3717893336832086216, guid: f2f3492d7191d4b8ea757c3f20024515,
     type: 3}
+  range: 0
+  damage: 0
 --- !u!54 &710226736482732786
 Rigidbody:
   m_ObjectHideFlags: 0

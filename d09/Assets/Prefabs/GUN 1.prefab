@@ -210,16 +210,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   areaDamage: 0
   range: 0
-  attackSpeed: 1
+  attackSpeed: 0.2
   damage: 10
   shotAudio: {fileID: 922693111191512861}
   shotPoint: {fileID: 922693110848722359}
   bullet: {fileID: 6557588658642768016, guid: d1990c7b4a74b45a881c7501e540fbe5, type: 3}
   bulletTrail: {fileID: 2100000, guid: 14afeb88f238d4b3784d892cfdff6d15, type: 2}
-  mesh: {fileID: 922693109236325567}
-  skinnedMesh: {fileID: 0}
   animator: {fileID: 922693111191512857}
   cursor: {fileID: 0}
+  ableToShoot: 0
 --- !u!1 &922693110848722359
 GameObject:
   m_ObjectHideFlags: 0
