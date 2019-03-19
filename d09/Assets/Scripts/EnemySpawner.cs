@@ -7,22 +7,38 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemy;
     public TotalEnemy totalEnemy;
 
+    float time;
 
     void Start()
     {
-        StartCoroutine(SpawnEnemy());
+        //StartCoroutine(SpawnEnemy());
     }
 
-    IEnumerator SpawnEnemy()
+    private void Update()
     {
-        while(true)
+        if (totalEnemy.canSummon)
         {
-            if (totalEnemy.canSummon)
+            time += Time.deltaTime;
+            if (time >= Random.Range(5f, 20f))
             {
+                time = 0f;
                 GameObject e = Instantiate(enemy, transform);
                 e.GetComponent<BasicEnemy>().Damage *= totalEnemy.waves;
-                yield return new WaitForSeconds(Random.Range(5f, 20f));
             }
         }
+
     }
+
+    //IEnumerator SpawnEnemy()
+    //{
+    //    while(true)
+    //    {
+    //        if (totalEnemy.canSummon)
+    //        {
+    //            GameObject e = Instantiate(enemy, transform);
+    //            e.GetComponent<BasicEnemy>().Damage *= totalEnemy.waves;
+    //            yield return new WaitForSeconds(Random.Range(5f, 20f));
+    //        }
+    //    }
+    //}
 }

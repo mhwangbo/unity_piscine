@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TotalEnemy : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class TotalEnemy : MonoBehaviour
     // UI
     public Text waveText;
     public Text timerText;
+    public Text notification;
 
     PlayerController playerController;
 
@@ -22,44 +24,63 @@ public class TotalEnemy : MonoBehaviour
         waves = 1;
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         waveTime = 45.0f;
-        restTime = 10.0f;
+        restTime = 20.0f;
         waveText.text = "Wave " + waves;
-        timerText.text = waveTime.ToString();
+        timerText.text = Mathf.CeilToInt(waveTime) + " s";
     }
 
     private void Update()
     {
-        if (waveTime > 0.0f)
+        if (!playerController.IsKilled)
         {
-            waveTime -= Time.deltaTime;
-            timerText.text = waveTime.ToString();
-            GameObject[] childEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-            enemies = childEnemies.Length;
-            if (enemies < 20)
-                canSummon = true;
-            else
-                canSummon = false;
-            if (waveTime <= 0.0f)
+            if (waveTime > 0.0f)
             {
-                timerText.text = restTime.ToString();
-                waveText.text = "BREAK TIME";
+                waveTime -= Time.deltaTime;
+                timerText.text = Mathf.CeilToInt(waveTime).ToString();
+                GameObject[] childEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+                enemies = childEnemies.Length;
+                if (enemies < 20)
+                    canSummon = true;
+                else
+                    canSummon = false;
+                if (waveTime <= 0.0f)
+                {
+                    canSummon = false;
+                    timerText.text = Mathf.CeilToInt(restTime) + " s";
+                    waveText.text = "BREAK TIME";
+                    StartCoroutine(Notice("break time began"));
+                }
             }
-        }
-        else if (restTime > 0.0f)
-        {
-            canSummon = false;
-            restTime -= Time.deltaTime;
-            timerText.text = restTime.ToString();
-            playerController.hp++;
+            else if (restTime > 0.0f)
+            {
+                restTime -= Time.deltaTime;
+                timerText.text = Mathf.CeilToInt(restTime) + " s";
+                if (playerController.hp < 100)
+                    playerController.hp++;
+            }
+            else
+            {
+                waves++;
+                waveTime = 45.0f;
+                restTime = 10.0f;
+                waveText.text = "Wave " + waves;
+                timerText.text = waveTime + " s";
+                StartCoroutine(Notice("new wave began"));
+            }
         }
         else
         {
-            waves++;
-            waveTime = 45.0f;
-            restTime = 10.0f;
-            waveText.text = "Wave " + waves;
-            timerText.text = waveTime.ToString();
+            notification.text = "You passed " + (waves - 1) + " waves";
+            if (Input.GetKeyDown(KeyCode.Space))
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
+    }
+
+    private IEnumerator Notice(string str)
+    {
+        notification.text = str;
+        yield return new WaitForSeconds(2.0f);
+        notification.text = "";
     }
 }
