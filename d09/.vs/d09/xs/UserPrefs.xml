@@ -1,8 +1,9 @@
 ﻿<Properties StartupConfiguration="{EBA3CBE4-D4D0-5682-2EC0-21B0C7969D04}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WeaponController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TestBullet.cs">
     <Files>
-      <File FileName="Assets/Scripts/WeaponController.cs" Line="13" Column="25" />
+      <File FileName="Assets/Scripts/TestBullet.cs" Line="24" Column="6" />
+      <File FileName="Assets/Scripts/WeaponController.cs" Line="63" Column="71" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
