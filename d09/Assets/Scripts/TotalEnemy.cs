@@ -19,6 +19,11 @@ public class TotalEnemy : MonoBehaviour
 
     PlayerController playerController;
 
+    // Boss
+    public GameObject bossSpawner;
+    public GameObject boss;
+    bool bossWave;
+
     private void Start()
     {
         waves = 1;
@@ -31,6 +36,13 @@ public class TotalEnemy : MonoBehaviour
 
     private void Update()
     {
+        if (!bossWave && waves % 3 == 0)
+        {
+            bossWave = true;
+            GameObject boss1 = Instantiate(boss, bossSpawner.transform);
+            boss1.name = "Boss";
+            boss1.transform.localPosition = Vector3.zero;
+        }
         if (!playerController.IsKilled)
         {
             if (waveTime > 0.0f)
@@ -39,7 +51,9 @@ public class TotalEnemy : MonoBehaviour
                 timerText.text = Mathf.CeilToInt(waveTime).ToString();
                 GameObject[] childEnemies = GameObject.FindGameObjectsWithTag("Enemy");
                 enemies = childEnemies.Length;
-                if (enemies < 20)
+                if (bossWave)
+                    canSummon = false;
+                else if (enemies < 20)
                     canSummon = true;
                 else
                     canSummon = false;
@@ -53,6 +67,7 @@ public class TotalEnemy : MonoBehaviour
             }
             else if (restTime > 0.0f)
             {
+                canSummon = false;
                 restTime -= Time.deltaTime;
                 timerText.text = Mathf.CeilToInt(restTime) + " s";
                 if (playerController.hp < 100)
