@@ -103,7 +103,7 @@ public class EnemyController : MonoBehaviour
         enemyState = State.SINKING;
         yield return new WaitForSeconds(3.0f);
         GameObject potionPre = null;
-        if (Random.value <= 1.0f)
+        if (Random.value <= 0.3f)
         {
             potionPre = Instantiate(potion);
             potionPre.transform.position = new Vector3(transform.position.x, transform.position.y + 7.0f, transform.position.z);
